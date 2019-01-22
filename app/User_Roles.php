@@ -16,7 +16,7 @@ class User_Roles extends Model
     public static function addUserRole(){
 
         $role=Role::where('name','User')->pluck('id');
-        $user = User::latest()->first();
+        $user = User::latest('id')->first();
 
         $urole = DB::table('user__roles')->insert([
             'role_id' => $role[0],

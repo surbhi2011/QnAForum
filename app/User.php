@@ -1,8 +1,11 @@
 <?php
 
 namespace App;
+use DB;
+use App\User_Roles;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,9 +21,10 @@ class User extends Authenticatable
      */
     protected $dates = ['deleted_at'];
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','created_at','updated_at'
     ];
 
+    public $timestamps = true;
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -29,4 +33,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $redirectedTo = '/home';
+
+    public function add(array $attributes)
+    {
+        $user = User::create([
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'password' => Hash::make($attributes['password']),
+        ]);
+
+        User_Roles::addUserRole();
+
+        return $user;
+    }
+
 }
