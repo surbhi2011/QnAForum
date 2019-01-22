@@ -12,12 +12,12 @@ class UserRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $user=DB::table('users')->latest()->first()->id();
+        $user=DB::table('users')->latest()->first();
         $role=DB::table('roles')->where('name','SuperAdmin')->pluck('id');
         //$role=Role::where('name' , 'SuperAdmin')->get();
-        DB::table('user_roles')->insert([
-           'role_id'=> $role,
-            'user_id'=> $user,
+        DB::table('user__roles')->insert([
+           'role_id'=> $role[0],
+            'user_id'=> $user->id,
         ]);
     }
 }
