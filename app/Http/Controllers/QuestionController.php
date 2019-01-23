@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Question;
 use App\Repositories\Question\EloquentQuestion;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Integer;
 
 class QuestionController extends Controller
 {
@@ -73,33 +74,35 @@ class QuestionController extends Controller
         $this->question = new EloquentQuestion($q);
    }
 
-   public function getAllQuestions()
+   public function show()
    {
        return $this->question->getAll();
-   }
-   public function getQuestionById($id)
-   {
-       return $this->question->getQuestionById($id);
    }
    public function store()
    {
         $this->question->create(request(['title','description']));
         return view('home');
    }
-   public function update($id, Request $request)
+   public function update($id)
    {
-       $this->question->update($id,$request->all());
+       $this->question->update($id,request(['title','description']));
         return $this->question->find($id);
    }
    public function destroy($id)
    {
-       return $this->question->delete($id);
+       $this->question->delete($id);
+       return view('home');
+
    }
-   public function getAllQuestionsByUserId($id)
+   public function getQuestionById($id)
+   {
+        return $this->question->getQuestionById($id);
+   }
+   public function showAllUserQuestions($id)
    {
        return $this->question->getAllQuestionsByUserId($id);
    }
-   public function getAllQuestionsByCategory($category)
+   public function showAllCategoryQuestions($category)
    {
        return $this->question->getAllQuestionsByCategory($category);
    }

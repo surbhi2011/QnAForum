@@ -9,6 +9,8 @@
 namespace App\Repositories\Question;
 
 
+use phpDocumentor\Reflection\Types\Integer;
+
 interface QuestionRepositoryInterface
 {
     public function getAll();
@@ -17,7 +19,7 @@ interface QuestionRepositoryInterface
 
     public function getAllQuestionsByUserId($id);
 
-    public function getAllQuestionsByCategory(string $attribute);
+    public function getAllQuestionsByCategory($id);
 
     public function getByOldest();
 

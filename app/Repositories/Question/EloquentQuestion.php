@@ -10,6 +10,8 @@ namespace App\Repositories\Question;
 use App\Question;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use phpDocumentor\Reflection\Types\Integer;
+
 class EloquentQuestion implements QuestionRepositoryInterface
 {
     protected $question;
@@ -26,16 +28,16 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getQuestionById($id)
     {
-        return $this->find($id);
+        return $this->question->getQuestion($id);
     }
     public function getAllQuestionsByUserId($id)
     {
-        return $this->find($id)->all();
+        return $this->question->getAllUserQuestions($id);
     }
 
-    public function getAllQuestionsByCategory(string $attribute)
+    public function getAllQuestionsByCategory($category)
     {
-        return $this->findByString($attribute)->all();
+        return $this->question->getAllCategoryQuestions($category);
     }
 
     public function getByOldest()
@@ -58,13 +60,12 @@ class EloquentQuestion implements QuestionRepositoryInterface
     public function update($id, array $attributes)
     {
 
-        $question = $this->question->findOrFail($id);
-        return $question -> update($attributes);
+        return $this->question->up($attributes);
     }
 
     public function delete($id)
     {
-        $this->getById($id)->delete();
+        $this->question->del($id)->delete();
         return true;
     }
 
