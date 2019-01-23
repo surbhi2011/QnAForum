@@ -21,4 +21,15 @@ Route::post('/login', 'AuthController@login')->name('login');
 
 Route::group(['middleware' => ['jwt.auth']], function (){
     Route::get('user','AuthController@getAllUsers');
+
+    Route::get('question', function (){
+        //dd('dmkdkm');
+        //Route::get('/{id}','QuestionController@getQuestionById');
+        //Route::view('/askquestion','askquestion');
+        //Route::get('question/{id}','QuestionController@getQuestionById');
+        Route::get('/','QuestionController@getAllQuestions');
+        //Route::post('/askquestion','QuestionController@store');
+    });
+
+
 });
