@@ -26,7 +26,7 @@ class EloquentUser implements UserRepository
 
     public function getById($id)
     {
-        return $this->findById($id);
+        return $this->model->find($id);
     }
 
     public function create(array $attr)
