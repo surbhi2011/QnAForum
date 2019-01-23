@@ -86,21 +86,29 @@ class AnswerController extends Controller
     {
         return $this->answer->getAnswerByQId($id);
     }
-    public function store()
+    public function store($qid)
     {
-        return $this->answer->create(request(['title','description']));
-       // return view('home');
+        return $this->answer->create($qid,request(['description']));
     }
     public function update($id, Request $request)
     {
         return $this->answer->update($id,$request->all());
     }
-    public function destroy($id)
+    public function delete($id)
     {
-        return $this->answer->delete($id);
+        return $this->answer->remove($id);
     }
-    public function getAllAnswersByUserId($id)
+    public function deleteAnswer($id)
     {
-        return $this->answer->getAnswersByUserId($id);
+        return $this->answer->removeAnswer($id);
+    }
+    public function getUserAnswers()
+    {
+        return $this->answer->getAnswersByUserId();
+    }
+
+    public function getCount($id)
+    {
+        return $this->answer->getCountAnswers($id);
     }
 }

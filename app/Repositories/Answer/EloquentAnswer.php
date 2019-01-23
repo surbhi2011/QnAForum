@@ -8,7 +8,7 @@
 
 namespace App\Repositories\Answer;
 
-
+use Illuminate\Support\Facades\Auth;
 use App\Answer;
 
 class EloquentAnswer implements AnswerRepository
@@ -25,9 +25,9 @@ class EloquentAnswer implements AnswerRepository
         return $this->model->all();
     }
 
-    public function getCountAnswers()
+    public function getCountAnswers($id)
     {
-        // TODO: Implement getCountAnswers() method.
+        return $this->getAnswerByQId($id)->count();
     }
 
     public function getAnswerById($id)
@@ -40,24 +40,36 @@ class EloquentAnswer implements AnswerRepository
         return $this->model->where('question_id', $id)->get();
     }
 
-    public function getAnswersByUserId($id)
+    public function getAnswersByUserId()
     {
-        // TODO: Implement getAnswersByUserId() method.
+        $user = Auth::user();
+        //return $user;
+        return $this->model->where('user_id', $user->id)->get();
     }
 
-    public function create(array $attributes)
+    public function create($qid,array $attributes)
     {
-        // TODO: Implement create() method.
+        return $this->model->add($qid,$attributes);
     }
 
     public function update($id, array $attributes)
     {
-        // TODO: Implement update() method.
+        $ans = $this->model->findOrFail($id);
+        $ans->update($attributes);
+        return $ans;
     }
 
-    public function delete($id)
+    public function remove($id)
     {
-        // TODO: Implement delete() method.
+        $this->getAnswerById($id)->delete();
+        return true;
     }
 
+    public function removeAnswer($id)
+    {
+        $que = $this->getAnswerByQId($id)->toArray();
+        $ids = array_map(function($item){ return $item['id']; }, $que);
+        $this->model->destroy($ids);
+        return true;
+    }
 }

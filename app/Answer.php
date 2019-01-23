@@ -2,22 +2,25 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
     //
     protected $fillable = [
-        'description'
+        'description','question_id','user_id'
     ];
 
-    public function add(array $attributes)
+    public function add($qid,array $attributes)
     {
-        $user = User::create([
-            'name' => $attributes[0],
-            'email' => $attributes[1],
-            'password' => Hash::make($attributes[2]),
+        $user = Auth::user();
+        $id = $user->id;
+        $answer = Answer::create([
+            'description' => $attributes['description'],
+            'user_id' => $id,
+            'question_id' => $qid
         ]);
-        return $user;
+        return $answer;
     }
 }

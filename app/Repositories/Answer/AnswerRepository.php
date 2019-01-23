@@ -13,17 +13,19 @@ interface AnswerRepository
 {
     public function getAll();
 
-    public function getCountAnswers();
+    public function getCountAnswers($id);
 
     public function getAnswerById($id);
 
     public function getAnswerByQId($id);
 
-    public function getAnswersByUserId($id);
+    public function getAnswersByUserId();
 
-    public function create(array $attributes);
+    public function create($qid,array $attributes);
 
     public function update($id, array $attributes);
 
-    public function delete($id);
+    public function remove($id);
+
+    public function removeAnswer($id);
 }
