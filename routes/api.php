@@ -20,7 +20,6 @@ Route::post('/login', 'AuthController@login')->name('login');
 //Route::get('/user','AuthController@getAllUsers');
 
 Route::group(['middleware' => ['jwt.auth']], function (){
-    Route::get('user','AuthController@getAllUsers');
 
     Route::prefix('question')->group(function (){
 
@@ -58,4 +57,23 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     });
 
+    Route::prefix('user')->group(function (){
+        Route::get('/','UserController@getAllUsers');
+        Route::get('/{id}', 'UserController@getuser');
+        Route::patch('/{id}','UserController@update');
+        Route::delete('/{id}','UserController@delete');
+    });
+
+
+    Route::prefix('answer')->group(function (){
+        Route::get('/ans', 'AnswerController@getUserAnswers');
+        Route::get('/{id}/count','AnswerController@getCount');
+        Route::get('/', 'AnswerController@getAllAnswers');
+        Route::get('/{id}','AnswerController@getAnswer');
+        Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
+        Route::post('/{qid}', 'AnswerController@store');
+        Route::patch('/{id}','AnswerController@update');
+        Route::delete('/{id}/question','AnswerController@deleteAnswer');
+        Route::delete('/{id}','AnswerController@delete');
+    });
 });

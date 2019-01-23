@@ -3,67 +3,112 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
-use App\Question;
+use App\Repositories\Answer\AnswerRepository;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
-    public function view()
+//    public function view()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load answer
+//        $answer = Answer::find(1);
+//
+//        if ($user->can('view', $answer)) {
+//            echo "Current logged in user is allowed to update the Answer: {$answer->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+//
+//    public function create()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        if ($user->can('create', Answer::class)) {
+//            echo 'Current logged in user is allowed to create new answers.';
+//        } else {
+//            echo 'Not Authorized';
+//        }
+//
+//        exit;
+//    }
+//
+//    public function update()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load answer
+//        $answer = Answer::find(1);
+//
+//        if ($user->can('update', $answer)) {
+//            echo "Current logged in user is allowed to update the Answer: {$answer->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+//
+//    public function delete()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load answer
+//        $answer = Answer::find(1);
+//
+//        if ($user->can('delete', $answer)) {
+//            echo "Current logged in user is allowed to delete the Answer: {$answer->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+
+    private $answer;
+
+    public function __construct(AnswerRepository $answer)
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        // load answer
-        $answer = Answer::find(1);
-
-        if ($user->can('view', $answer)) {
-            echo "Current logged in user is allowed to update the Answer: {$answer->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
+        $this->answer = $answer;
     }
 
-    public function create()
+    public function getAllAnswers()
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        if ($user->can('create', Answer::class)) {
-            echo 'Current logged in user is allowed to create new answers.';
-        } else {
-            echo 'Not Authorized';
-        }
-
-        exit;
+        return $this->answer->getAll();
+    }
+    public function getAnswer($id)
+    {
+        return $this->answer->getAnswerById($id);
+    }
+    public function getAnswerByQuestion($id)
+    {
+        return $this->answer->getAnswerByQId($id);
+    }
+    public function store($qid)
+    {
+        return $this->answer->create($qid,request(['description']));
+    }
+    public function update($id, Request $request)
+    {
+        return $this->answer->update($id,$request->all());
+    }
+    public function delete($id)
+    {
+        return $this->answer->remove($id);
+    }
+    public function deleteAnswer($id)
+    {
+        return $this->answer->removeAnswer($id);
+    }
+    public function getUserAnswers()
+    {
+        return $this->answer->getAnswersByUserId();
     }
 
-    public function update()
+    public function getCount($id)
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        // load answer
-        $answer = Answer::find(1);
-
-        if ($user->can('update', $answer)) {
-            echo "Current logged in user is allowed to update the Answer: {$answer->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
-    }
-
-    public function delete()
-    {
-        // get current logged in user
-        $user = Auth::user();
-
-        // load answer
-        $answer = Answer::find(1);
-
-        if ($user->can('delete', $answer)) {
-            echo "Current logged in user is allowed to delete the Answer: {$answer->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
+        return $this->answer->getCountAnswers($id);
     }
 }

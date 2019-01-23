@@ -29,7 +29,6 @@ class AuthController extends Controller
 
     public function login()
     {
-     //   dd('jdaj');
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
@@ -53,21 +52,5 @@ class AuthController extends Controller
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60
         ]);
-    }
-
-    public function getAllUsers(){
-
-        //dd('ajksd');
-        return $this->user->getAll();
-    }
-
-    public function getuser($id)
-    {
-        return $this->user->getById($id);
-    }
-
-    public function update($id,Request $request)
-    {
-        return $this->user->update($id, \request(['name','email']));
     }
 }
