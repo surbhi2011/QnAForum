@@ -13,24 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-
-    dd('nsjdkank');
-    //Route::post('/logout', 'AuthController@logout');
-
-    //Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/','AuthController@getAllUsers');
-    //user
-//    Route::namespace('user')->group(function(){
-//        Route::get('/','AuthController@getAllUsers');
-//        Route::get('/get/{id}','AuthController@getUser');
-//        Route::patch('/{id}', 'AuthController@update');
-//    });
-
-    //return $request->user();
-});
-
 Route::post('/register','AuthController@register');
 
 Route::post('/login', 'AuthController@login')->name('login');
 
+//Route::get('/user','AuthController@getAllUsers');
+
+Route::group(['middleware' => ['jwt.auth']], function (){
+    Route::get('user','AuthController@getAllUsers');
+});

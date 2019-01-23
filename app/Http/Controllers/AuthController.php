@@ -29,14 +29,14 @@ class AuthController extends Controller
 
     public function login()
     {
-        dd('jdaj');
-//        $credentials = request(['email', 'password']);
-//
-//        if (! $token = auth()->attempt($credentials)) {
-//            return response()->json(['error' => 'Unauthorized'], 401);
-//        }
-//
-//        return $this->respondWithToken($token);
+     //   dd('jdaj');
+        $credentials = request(['email', 'password']);
+
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
     }
 
     public function logout()
@@ -57,8 +57,8 @@ class AuthController extends Controller
 
     public function getAllUsers(){
 
-        dd('ajksd');
-        //return $this->user->getAll();
+        //dd('ajksd');
+        return $this->user->getAll();
     }
 
     public function getuser($id)
