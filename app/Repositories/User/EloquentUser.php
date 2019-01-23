@@ -8,7 +8,6 @@
 
 namespace App\Repositories\User;
 use App\User;
-use App\Repositories\User\UserRepository;
 
 class EloquentUser implements UserRepository
 {
@@ -41,9 +40,9 @@ class EloquentUser implements UserRepository
         return $user;
     }
 
-    public function delete($id)
+    public function remove($id)
     {
         $this->getById($id)->delete();
-        return TRUE;
+        return "true";
     }
 }
