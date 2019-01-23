@@ -81,12 +81,12 @@ class QuestionController extends Controller
    public function store()
    {
         $this->question->create(request(['title','description']));
-        return view('home');
+        return view('askquestion');
    }
-   public function update($id)
+   public function updatequestion($id)
    {
-       $this->question->update($id,request(['title','description']));
-        return $this->question->find($id);
+       $this->question->update(request(['title','description']),$id);
+        return $this->question->getQuestionById($id);
    }
    public function destroy($id)
    {
@@ -105,5 +105,9 @@ class QuestionController extends Controller
    public function showAllCategoryQuestions($category)
    {
        return $this->question->getAllQuestionsByCategory($category);
+   }
+   public function showQuestionsOldestFirst()
+   {
+       return $this->question->getByOldest();
    }
 }

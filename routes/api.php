@@ -23,11 +23,12 @@ Route::group(['middleware' => ['jwt.auth']], function (){
     Route::get('user','AuthController@getAllUsers');
 
     Route::prefix('question')->group(function (){
-        Route::get('/question/{id}','QuestionController@getQuestionById');
 
-        Route::view('/askquestion','askquestion');
+//        Route::view('/askquestion','askquestion');
 
         Route::post('/askquestion','QuestionController@store');
+
+        Route::post('/updatequestion/{id}','QuestionController@updatequestion');
 
         Route::get('question/{id}','QuestionController@getQuestionById');
 
@@ -39,6 +40,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
         Route::get('deletequestion/{id}','QuestionController@destroy');
 
+        Route::get('questionoldestfirst','QuestionController@showQuestionsOldestFirst');
     });
 
 });

@@ -26,6 +26,25 @@ class EloquentQuestion implements QuestionRepositoryInterface
         return $this->question->all();
     }
 
+    public function create(array $attributes)
+    {
+        return $this->question->add($attributes);
+
+    }
+
+    public function update(array $attributes, $id)
+    {
+
+        return $this->question->up($attributes,$id);
+    }
+
+    public function delete($id)
+    {
+        $this->question->del($id)->delete();
+        return true;
+    }
+
+
     public function getQuestionById($id)
     {
         return $this->question->getQuestion($id);
@@ -42,31 +61,12 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getByOldest()
     {
-        // TODO: Implement getByOldest() method.
+        return $this->question->getOldestFirst();
     }
 
     public function getAllCount()
     {
         // TODO: Implement getAllCount() method.
-    }
-
-    public function create(array $attributes)
-    {
-
-        return $this->question->add($attributes);
-
-    }
-
-    public function update($id, array $attributes)
-    {
-
-        return $this->question->up($attributes);
-    }
-
-    public function delete($id)
-    {
-        $this->question->del($id)->delete();
-        return true;
     }
 
 }

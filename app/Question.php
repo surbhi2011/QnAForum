@@ -15,9 +15,10 @@ class Question extends Model
 
     public function add(array $attributes)
     {
+//        dd($attributes['title']);
         $user = Auth::user();
         $id = $user->id;
-        $cat_id = 1;
+        $cat_id = 2;
         $question = Question::create([
             'title' => $attributes['title'],
             'description' => $attributes['description'],
@@ -26,17 +27,16 @@ class Question extends Model
         ]);
         return $question;
     }
-    public function up($id,array $attributes)
+    public function up(array $attributes, $id)
     {
-        $question = Question::update($id,[
-            'title' => $attributes['title'],
-            'description' => $attributes['description'],
-        ]);
+        $question =Question::find($id);
+        $question->update($attributes);
         return $question;
     }
 
     public function del($id)
     {
+
         $question = Question::find($id);
         //$question = Question::where('id',$id)->get();
         return $question;
@@ -60,6 +60,10 @@ class Question extends Model
         $question = Question::where('category_id',$category)->get();
         return $question;
     }
-
+    public function getOldestFirst()
+    {
+        $question = Question::latest('id')->get();
+        return $question;
+    }
 
 }

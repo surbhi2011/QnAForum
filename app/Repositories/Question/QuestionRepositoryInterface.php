@@ -15,6 +15,12 @@ interface QuestionRepositoryInterface
 {
     public function getAll();
 
+    public function create(array $attributes);
+
+    public function update(array $attributes, $id);
+
+    public function delete($id);
+
     public function getQuestionById($id);
 
     public function getAllQuestionsByUserId($id);
@@ -25,9 +31,4 @@ interface QuestionRepositoryInterface
 
     public function getAllCount();
 
-    public function create(array $attributes);
-
-    public function update($id, array $attributes);
-
-    public function delete($id);
 }
