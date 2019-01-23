@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\Repositories\Question\EloquentQuestion;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function view()
+   /* public function view()
     {
         // get current logged in user
         $user = Auth::user();
@@ -64,5 +65,42 @@ class QuestionController extends Controller
         } else {
             echo 'Not Authorized.';
         }
-    }
+    }*/
+
+    protected $question;
+   public function __construct(Question $q)
+   {
+        $this->question = new EloquentQuestion($q);
+   }
+
+   public function getAllQuestions()
+   {
+       return $this->question->getAll();
+   }
+   public function getQuestionById($id)
+   {
+       return $this->question->getQuestionById($id);
+   }
+   public function store()
+   {
+        $this->question->create(request(['title','description']));
+        return view('home');
+   }
+   public function update($id, Request $request)
+   {
+       $this->question->update($id,$request->all());
+        return $this->question->find($id);
+   }
+   public function destroy($id)
+   {
+       return $this->question->delete($id);
+   }
+   public function getAllQuestionsByUserId($id)
+   {
+       return $this->question->getAllQuestionsByUserId($id);
+   }
+   public function getAllQuestionsByCategory($category)
+   {
+       return $this->question->getAllQuestionsByCategory($category);
+   }
 }
