@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Category\EloquentCategory;
 use App\Repositories\Question\QuestionRepositoryInterface;
 use App\Repositories\User\EloquentUser;
 use App\Repositories\User\UserRepository;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserRepository::class, EloquentUser::class);
+
+        $this->app->singleton(CategoryRepositoryInterface::class, EloquentCategory::class);
 
         $this->app->singleton(QuestionRepositoryInterface::class, EloquentQuestion::class);
     }

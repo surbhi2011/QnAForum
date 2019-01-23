@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
-use phpDocumentor\Reflection\Types\Integer;
 
 class Question extends Model
 {

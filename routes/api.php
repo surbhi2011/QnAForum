@@ -24,11 +24,11 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
 
-//        Route::view('/askquestion','askquestion');
+//        Route::view('askquestion','askquestion');
 
-        Route::post('/askquestion','QuestionController@store');
+        Route::post('askquestion','QuestionController@store');
 
-        Route::post('/updatequestion/{id}','QuestionController@updatequestion');
+        Route::post('updatequestion/{id}','QuestionController@updatequestion');
 
         Route::get('question/{id}','QuestionController@getQuestionById');
 
@@ -41,6 +41,21 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('deletequestion/{id}','QuestionController@destroy');
 
         Route::get('questionoldestfirst','QuestionController@showQuestionsOldestFirst');
+
+        Route::get('allquestioncount','QuestionController@getCount');
+    });
+
+    Route::prefix('category')->group(function () {
+
+       Route::get('category/{id}','CategoryController@getCategoryById');
+
+       Route::post('createcategory','CategoryController@store');
+
+       Route::post('updatecategory/{id}','CategoryController@updatecategory');
+
+       Route::get('deletecategory/{id}','CategoryController@destroy');
+
+
     });
 
 });

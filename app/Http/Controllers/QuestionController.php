@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Question;
 use App\Repositories\Question\EloquentQuestion;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Integer;
 
 class QuestionController extends Controller
 {
@@ -109,5 +108,9 @@ class QuestionController extends Controller
    public function showQuestionsOldestFirst()
    {
        return $this->question->getByOldest();
+   }
+   public function getCount()
+   {
+       return $this->question->getAllCount();
    }
 }

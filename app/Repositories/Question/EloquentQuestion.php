@@ -8,9 +8,7 @@
 
 namespace App\Repositories\Question;
 use App\Question;
-use Illuminate\Database\Eloquent\Model;
 use Auth;
-use phpDocumentor\Reflection\Types\Integer;
 
 class EloquentQuestion implements QuestionRepositoryInterface
 {
@@ -66,7 +64,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getAllCount()
     {
-        // TODO: Implement getAllCount() method.
+        return $this->getAll()->count();
     }
 
 }

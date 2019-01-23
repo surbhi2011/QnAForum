@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Repositories\Category\EloquentCategory;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function view()
+    /*public function view()
     {
         // get current logged in user
         $user = Auth::user();
@@ -63,5 +65,27 @@ class CategoryController extends Controller
         } else {
             echo 'Not Authorized.';
         }
+    }*/
+    protected $category;
+    public function __construct(Category $c)
+    {
+        $this->category = new EloquentCategory($c);
     }
+    public function getCategoryById($id)
+    {
+        return $this->category->getById($id);
+    }
+    public function store()
+    {
+        $this->category->create(request(['name']));
+    }
+    public function updatecategory($id)
+    {
+        return $this->category->update(request(['name']),$id);
+    }
+    public function destroy($id)
+    {
+        $this->category->delete($id);
+    }
+
 }
