@@ -10,6 +10,8 @@ namespace App\Repositories\Question;
 use App\Question;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use phpDocumentor\Reflection\Types\Integer;
+
 class EloquentQuestion implements QuestionRepositoryInterface
 {
     protected $question;
@@ -24,48 +26,47 @@ class EloquentQuestion implements QuestionRepositoryInterface
         return $this->question->all();
     }
 
+    public function create(array $attributes)
+    {
+        return $this->question->add($attributes);
+
+    }
+
+    public function update(array $attributes, $id)
+    {
+
+        return $this->question->up($attributes,$id);
+    }
+
+    public function delete($id)
+    {
+        $this->question->del($id)->delete();
+        return true;
+    }
+
+
     public function getQuestionById($id)
     {
-        return $this->find($id);
+        return $this->question->getQuestion($id);
     }
     public function getAllQuestionsByUserId($id)
     {
-        return $this->find($id)->all();
+        return $this->question->getAllUserQuestions($id);
     }
 
-    public function getAllQuestionsByCategory(string $attribute)
+    public function getAllQuestionsByCategory($category)
     {
-        return $this->findByString($attribute)->all();
+        return $this->question->getAllCategoryQuestions($category);
     }
 
     public function getByOldest()
     {
-        // TODO: Implement getByOldest() method.
+        return $this->question->getOldestFirst();
     }
 
     public function getAllCount()
     {
         // TODO: Implement getAllCount() method.
-    }
-
-    public function create(array $attributes)
-    {
-
-        return $this->question->add($attributes);
-
-    }
-
-    public function update($id, array $attributes)
-    {
-
-        $question = $this->question->findOrFail($id);
-        return $question -> update($attributes);
-    }
-
-    public function delete($id)
-    {
-        $this->getById($id)->delete();
-        return true;
     }
 
 }

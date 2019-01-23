@@ -22,14 +22,25 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
     Route::get('user','AuthController@getAllUsers');
 
-    Route::get('question', function (){
-        //dd('dmkdkm');
-        //Route::get('/{id}','QuestionController@getQuestionById');
-        //Route::view('/askquestion','askquestion');
-        //Route::get('question/{id}','QuestionController@getQuestionById');
-        Route::get('/','QuestionController@getAllQuestions');
-        //Route::post('/askquestion','QuestionController@store');
-    });
+    Route::prefix('question')->group(function (){
 
+//        Route::view('/askquestion','askquestion');
+
+        Route::post('/askquestion','QuestionController@store');
+
+        Route::post('/updatequestion/{id}','QuestionController@updatequestion');
+
+        Route::get('question/{id}','QuestionController@getQuestionById');
+
+        Route::get('userallquestions/{id}','QuestionController@showAllUserQuestions');
+
+        Route::get('categoryallquestions/{category}','QuestionController@showAllCategoryQuestions');
+
+        Route::get('allquestions','QuestionController@show');
+
+        Route::get('deletequestion/{id}','QuestionController@destroy');
+
+        Route::get('questionoldestfirst','QuestionController@showQuestionsOldestFirst');
+    });
 
 });

@@ -40,9 +40,9 @@ class User extends Authenticatable implements JWTSubject
     public function add(array $attributes)
     {
         $user = User::create([
-            'name' => $attributes['name'],
-            'email' => $attributes['email'],
-            'password' => Hash::make($attributes['password']),
+            'name' => $attributes[0],
+            'email' => $attributes[1],
+            'password' => Hash::make($attributes[2]),
         ]);
 
         User_Roles::addUserRole();

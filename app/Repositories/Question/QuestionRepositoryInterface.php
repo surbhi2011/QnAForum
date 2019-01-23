@@ -9,23 +9,26 @@
 namespace App\Repositories\Question;
 
 
+use phpDocumentor\Reflection\Types\Integer;
+
 interface QuestionRepositoryInterface
 {
     public function getAll();
+
+    public function create(array $attributes);
+
+    public function update(array $attributes, $id);
+
+    public function delete($id);
 
     public function getQuestionById($id);
 
     public function getAllQuestionsByUserId($id);
 
-    public function getAllQuestionsByCategory(string $attribute);
+    public function getAllQuestionsByCategory($id);
 
     public function getByOldest();
 
     public function getAllCount();
 
-    public function create(array $attributes);
-
-    public function update($id, array $attributes);
-
-    public function delete($id);
 }
