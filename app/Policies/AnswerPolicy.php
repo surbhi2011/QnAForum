@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use App\Answer;
+use App\Question;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AnswerPolicy
@@ -28,9 +29,12 @@ class AnswerPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Question $question)
     {
-        return $user->id >0;
+        if($user->id == $question->user_id)
+            return FALSE;
+        else
+            return TRUE;
     }
 
     /**
