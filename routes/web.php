@@ -14,27 +14,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/allusers','Auth\RegisterController@getAllUsers');
-
-Route::post('/register', 'Auth\RegisterController@create');
-
-Route::get('/question/{id}','QuestionController@getQuestionById');
-
-Route::view('/askquestion','askquestion');
-
-Route::post('/askquestion','QuestionController@store');
-
-Route::get('question/{id}','QuestionController@getQuestionById');
-
-Route::get('userallquestions/{id}','QuestionController@showAllUserQuestions');
-
-Route::get('categoryallquestions/{category}','QuestionController@showAllCategoryQuestions');
-
-Route::get('allquestions','QuestionController@show');
-
-Route::get('deletequestion/{id}','QuestionController@destroy');
 
