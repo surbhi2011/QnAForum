@@ -67,10 +67,8 @@ class RegisterController extends Controller
      * @return \App\User
      */
 
-    public function getAllUsers(){
 
-        return $this->user->getAll();
-    }
+
 
     protected function create()
     {
