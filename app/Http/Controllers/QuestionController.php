@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Vote;
 use App\Question;
 use App\Repositories\Question\EloquentQuestion;
 use Illuminate\Http\Request;
@@ -111,5 +112,24 @@ class QuestionController extends Controller
    public function getCount()
    {
        return $this->question->getAllCount();
+   }
+   public function upvote($id)
+   {
+       $data = [
+           'voteable_id' => $id,
+           'voteable_type' => Question::class,
+           'type' => 1
+       ];
+       return (new Vote())->add($data);
+   }
+   public function downvote($id)
+   {
+
+       $data = [
+           'voteable_id' => $id,
+           'voteable_type' => Question::class,
+           'type' => 0
+       ];
+       return (new Vote())->add($data);
    }
 }
