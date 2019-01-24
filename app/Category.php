@@ -34,4 +34,8 @@ class Category extends Model
         $category = Category::find($id);
         return $category;
     }
+    public function questions()
+    {
+        return $this->hasMany('App\Question');
+    }
 }

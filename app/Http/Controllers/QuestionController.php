@@ -91,7 +91,6 @@ class QuestionController extends Controller
    {
        $this->question->delete($id);
        return view('home');
-
    }
    public function getQuestionById($id)
    {

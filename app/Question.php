@@ -49,14 +49,17 @@ class Question extends Model
 
     public function getAllUserQuestions($id)
     {
-        $question = Question::where('user_id',$id)->get();
+        $question = User::find($id)->questions()->get();
+        //$question = Question::where('user_id',$id)->get();
         return $question;
     }
     public function getAllCategoryQuestions($category)
     {
+
         //$categoryid=Category::where('name',$category);
         //$question = Question::where('category_id',$categoryid)->get();
-        $question = Question::where('category_id',$category)->get();
+        //$question = Question::where('category_id',$category)->get();
+        $question = Category::find($category)->questions()->get();
         return $question;
     }
     public function getOldestFirst()
@@ -64,5 +67,12 @@ class Question extends Model
         $question = Question::latest('id')->get();
         return $question;
     }
-
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }

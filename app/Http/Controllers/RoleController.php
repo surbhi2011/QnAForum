@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Role\EloquentRole;
 use Illuminate\Http\Request;
+use App\Role;
 
 class RoleController extends Controller
 {
-    public function view()
+   /* public function view()
     {
         // get current logged in user
         $user = Auth::user();
@@ -63,5 +65,25 @@ class RoleController extends Controller
         } else {
             echo 'Not Authorized.';
         }
-    }
+    }*/
+
+   protected $role;
+
+   public function __construct(Role $r)
+   {
+       $this->role= new EloquentRole($r);
+   }
+
+   public function store()
+   {
+       $this->role->create(request(['name']));
+   }
+   public function updaterole($id)
+   {
+       $this->role->update(request(['name']), $id);
+   }
+   public function destroy($id)
+   {
+       $this->role->delete($id);
+   }
 }

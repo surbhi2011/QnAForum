@@ -22,39 +22,23 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
-
-//        Route::view('askquestion','askquestion');
-
-        Route::post('askquestion','QuestionController@store');
-
-        Route::post('updatequestion/{id}','QuestionController@updatequestion');
-
-        Route::get('question/{id}','QuestionController@getQuestionById');
-
-        Route::get('userallquestions/{id}','QuestionController@showAllUserQuestions');
-
-        Route::get('categoryallquestions/{category}','QuestionController@showAllCategoryQuestions');
-
-        Route::get('allquestions','QuestionController@show');
-
-        Route::get('deletequestion/{id}','QuestionController@destroy');
-
-        Route::get('questionoldestfirst','QuestionController@showQuestionsOldestFirst');
-
-        Route::get('allquestioncount','QuestionController@getCount');
+      //Route::view('ask','askquestion');
+        Route::post('ask','QuestionController@store');
+        Route::patch('update/{id}','QuestionController@updatequestion');
+        Route::get('{id}','QuestionController@getQuestionById');
+        Route::get('user/{id}','QuestionController@showAllUserQuestions');
+        Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
+        Route::get('all','QuestionController@show');
+        Route::delete('delete/{id}','QuestionController@destroy');
+        Route::get('old','QuestionController@showQuestionsOldestFirst');
+        Route::get('count','QuestionController@getCount');
     });
 
     Route::prefix('category')->group(function () {
-
-       Route::get('category/{id}','CategoryController@getCategoryById');
-
-       Route::post('createcategory','CategoryController@store');
-
-       Route::post('updatecategory/{id}','CategoryController@updatecategory');
-
-       Route::get('deletecategory/{id}','CategoryController@destroy');
-
-
+        Route::get('{id}','CategoryController@getCategoryById');
+        Route::post('create','CategoryController@store');
+        Route::patch('update/{id}','CategoryController@updatecategory');
+        Route::delete('delete/{id}','CategoryController@destroy');
     });
 
     Route::prefix('user')->group(function (){
@@ -75,5 +59,18 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::patch('/{id}','AnswerController@update');
         Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');
+    });
+
+    Route::prefix('role')->group(function ()
+    {
+       Route::post('create','RoleController@store');
+       Route::patch('update/{id}','RoleController@updaterole');
+       Route::delete('delete/{id}','RoleController@destroy');
+    });
+
+    Route::prefix('userroles')->group(function()
+    {
+       Route::post('create','UserRolesController@store');
+       Route::delete('delete/{user_id}/{role_id}','UserRolesController@destroy');
     });
 });

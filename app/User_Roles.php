@@ -25,4 +25,16 @@ class User_Roles extends Model
 
         return $urole;
     }
+
+    public function add($attributes){
+
+
+    }
+
+    public function del($user_id,$role_id)
+    {
+        $urole=User_Roles::where('user_id',$user_id)->where('role_id',$role_id);
+        return $urole;
+    }
+
 }
