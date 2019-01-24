@@ -83,6 +83,6 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/aupvote/{id}', 'VoteController@getAnswerUpvotes');
         Route::get('/adownvote/{id}', 'VoteController@getAnswerDownvotes');
         Route::post('/add', 'VoteController@store');
-        Route::delete('/', 'VoteController@getQuestionUpvotes');
+        Route::delete('/', 'VoteController@getdelete');
     });
 });
