@@ -32,6 +32,8 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::delete('delete/{id}','QuestionController@destroy');
         Route::get('old','QuestionController@showQuestionsOldestFirst');
         Route::get('count','QuestionController@getCount');
+        Route::get('upvote/{id}','QuestionController@upvote');
+        Route::get('downvote/{id}','QuestionController@downvote');
     });
 
     Route::prefix('category')->group(function () {
