@@ -101,4 +101,5 @@ class VoteController extends Controller
             'voteable_id' => '1'
         ]);
     }
+
 }

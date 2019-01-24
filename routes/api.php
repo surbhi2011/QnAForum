@@ -75,6 +75,8 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::patch('/{id}','AnswerController@update');
         Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');
+        Route::post('/upvote/{id}','AnswerController@upVote');
+        Route::post('/downvote/{id}','AnswerController@downVote');
     });
 
     Route::prefix('vote')->group(function (){
