@@ -73,4 +73,14 @@ Route::group(['middleware' => ['jwt.auth']], function (){
        Route::post('create','UserRolesController@store');
        Route::delete('delete/{user_id}/{role_id}','UserRolesController@destroy');
     });
+
+    Route::prefix('vote')->group(function (){
+        Route::get('/user','VoteController@getUser');
+        Route::get('/qupvote/{id}', 'VoteController@getQuestionUpvotes');
+        Route::get('/qdownvote/{id}', 'VoteController@getQuestionDownvotes');
+        Route::get('/aupvote/{id}', 'VoteController@getAnswerUpvotes');
+        Route::get('/adownvote/{id}', 'VoteController@getAnswerDownvotes');
+        Route::post('/add', 'VoteController@store');
+        Route::delete('/', 'VoteController@getQuestionUpvotes');
+    });
 });

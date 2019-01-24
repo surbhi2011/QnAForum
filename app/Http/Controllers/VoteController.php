@@ -2,66 +2,103 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Vote\VoteRepository;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
 {
-    public function view()
+//    public function view()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load vote
+//        $vote = Vote::find(1);
+//
+//        if ($user->can('view', $vote)) {
+//            echo "Current logged in user is allowed to update the Vote: {$vote->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+//
+//    public function create()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        if ($user->can('create', Vote::class)) {
+//            echo 'Current logged in user is allowed to create new votes.';
+//        } else {
+//            echo 'Not Authorized';
+//        }
+//
+//        exit;
+//    }
+//
+//    public function update()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load vote
+//        $vote = Vote::find(1);
+//
+//        if ($user->can('update', $vote)) {
+//            echo "Current logged in user is allowed to update the Vote: {$vote->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+//
+//    public function delete()
+//    {
+//        // get current logged in user
+//        $user = Auth::user();
+//
+//        // load vote
+//        $vote = Vote::find(1);
+//
+//        if ($user->can('delete', $vote)) {
+//            echo "Current logged in user is allowed to delete the Vote: {$vote->id}";
+//        } else {
+//            echo 'Not Authorized.';
+//        }
+//    }
+
+    private $vote;
+    public function __construct(VoteRepository $vote)
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        // load vote
-        $vote = Vote::find(1);
-
-        if ($user->can('view', $vote)) {
-            echo "Current logged in user is allowed to update the Vote: {$vote->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
+        $this->vote = $vote;
     }
 
-    public function create()
+    public function getQuestionUpvotes($id)
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        if ($user->can('create', Vote::class)) {
-            echo 'Current logged in user is allowed to create new votes.';
-        } else {
-            echo 'Not Authorized';
-        }
-
-        exit;
+        return $this->vote->getByQUpVote($id);
     }
 
-    public function update()
+    public function getQuestionDownvotes($id)
     {
-        // get current logged in user
-        $user = Auth::user();
-
-        // load vote
-        $vote = Vote::find(1);
-
-        if ($user->can('update', $vote)) {
-            echo "Current logged in user is allowed to update the Vote: {$vote->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
+        return $this->vote->getByQDownVote($id);
     }
 
-    public function delete()
+    public function getAnswerUpvotes($id)
     {
-        // get current logged in user
-        $user = Auth::user();
+        return $this->vote->getByAUpVote($id);
+    }
 
-        // load vote
-        $vote = Vote::find(1);
+    public function getAnswerDownvotes($id)
+    {
+        return $this->vote->getByADownVote($id);
+    }
 
-        if ($user->can('delete', $vote)) {
-            echo "Current logged in user is allowed to delete the Vote: {$vote->id}";
-        } else {
-            echo 'Not Authorized.';
-        }
+    public function store()
+    {
+        $type = \request('type');
+        return $this->vote->create([
+            'type' => $type,
+            'voteable_type'=> 'App\Question',
+            'voteable_id' => '1'
+        ]);
     }
 }

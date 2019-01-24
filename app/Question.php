@@ -12,6 +12,16 @@ class Question extends Model
       'title','description','user_id','category_id'
     ];
 
+    public function answers()
+    {
+        return $this->hasMany('App\Answer','question_id','id');
+    }
+
+    public function votes()
+    {
+        return $this->morphMany('App\Vote','voteable');
+    }
+
     public function add(array $attributes)
     {
 //        dd($attributes['title']);
