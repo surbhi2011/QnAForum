@@ -9,6 +9,7 @@
 namespace App\Repositories\Answer;
 
 use Illuminate\Support\Facades\Auth;
+use App\Question;
 use App\Answer;
 
 class EloquentAnswer implements AnswerRepository
@@ -37,7 +38,9 @@ class EloquentAnswer implements AnswerRepository
 
     public function getAnswerByQId($id)
     {
-        return $this->model->where('question_id', $id)->get();
+        $que = Question::find($id)->answers()->get();
+        //dd($que);
+        return $que;
     }
 
     public function getAnswersByUserId()

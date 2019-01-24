@@ -12,6 +12,16 @@ class Answer extends Model
         'description','question_id','user_id'
     ];
 
+    public function question()
+    {
+        return $this->belongsTo('App\Question','question_id','id');
+    }
+
+    public function votes()
+    {
+        return $this->morphMany('App\Vote','voteable');
+    }
+
     public function add($qid,array $attributes)
     {
         $user = Auth::user();
