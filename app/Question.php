@@ -53,22 +53,16 @@ class Question extends Model
     public function getQuestion($id)
     {
         $question = Question::find($id);
-        //$question = Question::where('id',$id)->get();
         return $question;
     }
 
     public function getAllUserQuestions($id)
     {
         $question = User::find($id)->questions()->get();
-        //$question = Question::where('user_id',$id)->get();
         return $question;
     }
     public function getAllCategoryQuestions($category)
     {
-
-        //$categoryid=Category::where('name',$category);
-        //$question = Question::where('category_id',$categoryid)->get();
-        //$question = Question::where('category_id',$category)->get();
         $question = Category::find($category)->questions()->get();
         return $question;
     }
@@ -77,6 +71,13 @@ class Question extends Model
         $question = Question::latest('id')->get();
         return $question;
     }
+
+    public function getList($id)
+    {
+        $que = Question::find($id)->answers()-votes();
+        return $que;
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');

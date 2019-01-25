@@ -25,6 +25,11 @@ class UserController extends Controller
         return $this->user->getById($id);
     }
 
+    public function getCount()
+    {
+        $cnt = $this->user->getAll()->count();
+        return "Total ".$cnt." Users.";
+    }
     public function update($id,Request $request)
     {
         return $this->user->update($id, \request(['name','email']));

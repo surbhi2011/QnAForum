@@ -22,16 +22,17 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
-        Route::post('ask/{id}','QuestionController@store');
+        Route::post('ask/{id}','QuestionController@store')->middleware('can:create,$id');
         Route::patch('update/{id}','QuestionController@updatequestion')->middleware('can:update,id');
+        Route::get('list/{id}','QuestionController@getQuestionList');
         Route::get('{id}','QuestionController@getQuestionById');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');
         Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
         Route::get('/all','QuestionController@show');
-        Route::delete('delete/{id}','QuestionController@destroy')->middleware('can:delete,id');
+        Route::delete('delete/{id}','QuestionController@destroy');
         Route::get('old','QuestionController@showQuestionsOldestFirst');
         Route::get('count','QuestionController@getCount');
-        Route::post('upvote/{id}','QuestionController@upvote')->middleware('can:upvote,id');
+        Route::post('upvote/{id}','QuestionController@upvote');
         Route::post('downvote/{id}','QuestionController@downvote');
     });
 
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
     });
 
     Route::prefix('user')->group(function (){
+        Route::get('/count', 'UserController@getCount');
         Route::get('/','UserController@getAllUsers');
         Route::get('/{id}', 'UserController@getuser');
         Route::patch('/{id}','UserController@update')->middleware('can:update,id');

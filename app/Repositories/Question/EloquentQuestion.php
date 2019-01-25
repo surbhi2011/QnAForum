@@ -38,15 +38,20 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function delete($id)
     {
-        $this->question->del($id);
-        return true;
-    }
+        return $this->question->del($id);
 
+    }
 
     public function getQuestionById($id)
     {
         return $this->question->getQuestion($id);
     }
+
+    public function getList($id)
+    {
+        return $this->question->getQuestionById($id);
+    }
+
     public function getAllQuestionsByUserId($id)
     {
         return $this->question->getAllUserQuestions($id);

@@ -26,6 +26,4 @@ interface AnswerRepository
     public function update($id, array $attributes);
 
     public function remove($id);
-
-    public function removeAnswer($id);
 }
