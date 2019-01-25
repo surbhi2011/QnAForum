@@ -33,4 +33,11 @@ class Answer extends Model
         ]);
         return $answer;
     }
+
+    public function del($id)
+    {
+        Answer::find($id)->votes()->delete();
+        Answer::find($id)->delete();
+        return true;
+    }
 }

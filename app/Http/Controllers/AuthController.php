@@ -22,7 +22,7 @@ class AuthController extends Controller
         $password = $request->getPassword();
 
         $user= $this->user->create([$name,$email,$password]);
-
+        dd($user);
         $token = auth()->login($user);
         return $this->respondWithToken($token);
     }

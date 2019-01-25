@@ -64,15 +64,6 @@ class EloquentAnswer implements AnswerRepository
 
     public function remove($id)
     {
-        $this->getAnswerById($id)->delete();
-        return true;
-    }
-
-    public function removeAnswer($id)
-    {
-        $que = $this->getAnswerByQId($id)->toArray();
-        $ids = array_map(function($item){ return $item['id']; }, $que);
-        $this->model->destroy($ids);
-        return true;
+        return $this->model->del($id);
     }
 }

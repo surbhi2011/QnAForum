@@ -59,7 +59,6 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
         Route::post('/{qid}', 'AnswerController@store');
         Route::patch('/{id}','AnswerController@update');
-        Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');
         Route::post('/upvote/{id}','AnswerController@upVote');
         Route::post('/downvote/{id}','AnswerController@downVote');
@@ -84,7 +83,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/qdownvote/{id}', 'VoteController@getQuestionDownvotes');
         Route::get('/aupvote/{id}', 'VoteController@getAnswerUpvotes');
         Route::get('/adownvote/{id}', 'VoteController@getAnswerDownvotes');
-        Route::post('/add', 'VoteController@store');
-        Route::delete('/', 'VoteController@getdelete');
+        //Route::post('/add', 'VoteController@store');
+        Route::delete('/{id}', 'VoteController@delete');
     });
 });

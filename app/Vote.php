@@ -37,4 +37,5 @@ class Vote extends Model
     {
         return $model->find($id)->votes->where('type',0);
     }
+
 }
