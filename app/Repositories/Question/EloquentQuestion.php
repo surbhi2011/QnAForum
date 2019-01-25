@@ -7,6 +7,9 @@
  */
 
 namespace App\Repositories\Question;
+use App\Answer;
+use App\Vote;
+use App\User;
 use App\Question;
 use Auth;
 
@@ -49,7 +52,29 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getList($id)
     {
-        return $this->question->getQuestionById($id);
+         $que = $this->getQuestionById($id);
+         $answers = $this->question->find($id)->answers()->get();
+         $acollect = [];
+         foreach ($answers as $ds)
+         {
+             $acollect[$id] = Answer::getAnswer($id);
+         }
+
+         $q = new Question();
+         $qup = (new Vote())->getUpvote($id,$q)->count();
+         $qdown = (new Vote())->getDownvote($id,$q)->count();
+         $name = User::find($que->user_id)->name;
+         $data = [
+             'id' => $id,
+             'title' => $que->title,
+             'description' => $que->description,
+             'Asked By' => $name,
+             'Answer' => $acollect,
+             'Question upvotes' => $qup,
+             'Question downvotes' => $qdown
+         ];
+         //dd($data);
+        return $data;
     }
 
     public function getAllQuestionsByUserId($id)

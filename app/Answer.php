@@ -40,4 +40,21 @@ class Answer extends Model
         Answer::find($id)->delete();
         return true;
     }
+
+    public static function getAnswer($id)
+    {
+        $ans = Answer::find($id);
+        $a = new Answer();
+        $up = (new Vote())->getUpvote($id,$a)->count();
+        $down = (new Vote())->getDownvote($id,$a)->count();
+        $name = User::find($ans->user_id)->name;
+        $data = [
+            'Answer Description' => $ans->description,
+            'Answer upvotes' => $up,
+            'Answer Downvotes' => $down,
+            'Answer given by' => $name
+        ];
+        return $data;
+    }
+
 }
