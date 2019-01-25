@@ -76,6 +76,7 @@ class QuestionController extends Controller
 
    public function show()
    {
+       dd('jsk');
        return $this->question->getAll();
    }
    public function store($id)

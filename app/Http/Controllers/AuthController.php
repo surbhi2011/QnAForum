@@ -22,7 +22,6 @@ class AuthController extends Controller
         $password = $request->get('password');
        // dd($password);
         $user= $this->user->create([$name,$email,$password]);
-        dd($user);
         $token = auth()->login($user);
       //  dd($token);
         return $this->respondWithToken($token);
