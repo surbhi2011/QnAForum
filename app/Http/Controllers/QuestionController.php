@@ -78,9 +78,9 @@ class QuestionController extends Controller
    {
        return $this->question->getAll();
    }
-   public function store()
+   public function store($id)
    {
-        $this->question->create(request(['title','description']));
+        $this->question->create(request(['title','description']),$id);
         return view('askquestion');
    }
    public function updatequestion($id)

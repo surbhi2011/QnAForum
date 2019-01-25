@@ -15,7 +15,7 @@ interface QuestionRepositoryInterface
 {
     public function getAll();
 
-    public function create(array $attributes);
+    public function create(array $attributes, $id);
 
     public function update(array $attributes, $id);
 

@@ -42,7 +42,12 @@ class EloquentUser implements UserRepository
 
     public function remove($id)
     {
-        $this->getById($id)->delete();
+       // dd($this->getById($id)->roles()->get()->toArray());
+        $user=  $this->getById($id);
+
+        $user->delete();
+        $user->userroles()->delete();
+
         return "true";
     }
 }
