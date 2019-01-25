@@ -24,9 +24,9 @@ class EloquentQuestion implements QuestionRepositoryInterface
         return $this->question->all();
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes,$id)
     {
-        return $this->question->add($attributes);
+        return $this->question->add($attributes,$id);
 
     }
 
@@ -38,7 +38,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function delete($id)
     {
-        $this->question->del($id)->delete();
+        $this->question->del($id);
         return true;
     }
 

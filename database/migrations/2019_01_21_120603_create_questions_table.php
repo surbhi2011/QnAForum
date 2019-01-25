@@ -20,8 +20,8 @@ class CreateQuestionsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
             $table->longText('description');
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories')->nullable();
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

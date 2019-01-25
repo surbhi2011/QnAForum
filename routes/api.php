@@ -23,7 +23,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
       //Route::view('ask','askquestion');
-        Route::post('ask','QuestionController@store');
+        Route::post('ask/{id}','QuestionController@store');
         Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('{id}','QuestionController@getQuestionById');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');

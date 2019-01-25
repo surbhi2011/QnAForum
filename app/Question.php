@@ -22,17 +22,16 @@ class Question extends Model
         return $this->morphMany('App\Vote','voteable');
     }
 
-    public function add(array $attributes)
+    public function add(array $attributes, $id)
     {
 //        dd($attributes['title']);
         $user = Auth::user();
-        $id = $user->id;
-        $cat_id = 2;
+        $uid = $user->id;
         $question = Question::create([
             'title' => $attributes['title'],
             'description' => $attributes['description'],
-            'user_id' => $id,
-            'category_id' => $cat_id
+            'user_id' => $uid,
+            'category_id' => $id
         ]);
         return $question;
     }
@@ -46,9 +45,10 @@ class Question extends Model
     public function del($id)
     {
 
-        $question = Question::find($id);
+        Question::find($id)->answers()->delete();
+        Question::find($id)->votes()->delete();
+        Question::find($id)->delete();
         //$question = Question::where('id',$id)->get();
-        return $question;
     }
     public function getQuestion($id)
     {

@@ -19,20 +19,25 @@ class AuthController extends Controller
     {
         $name = $request->get('name');
         $email = $request->get('email');
-        $password = $request->getPassword();
-
+        $password = $request->get('password');
+       // dd($password);
         $user= $this->user->create([$name,$email,$password]);
         dd($user);
         $token = auth()->login($user);
+      //  dd($token);
         return $this->respondWithToken($token);
     }
 
     public function login()
     {
         $credentials = request(['email', 'password']);
+
+     //   dd($credentials);
         if (! $token = auth()->attempt($credentials)) {
+
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        //dd($token);
         return $this->respondWithToken($token);
     }
 
