@@ -94,12 +94,12 @@ class VoteController extends Controller
 
     public function store()
     {
-        $type = \request('type');
-        return $this->vote->create([
-            'type' => $type,
-            'voteable_type'=> 'App\Question',
-            'voteable_id' => '1'
-        ]);
+        dd('bauii');
+        //return $this->vote->create($data);
     }
 
+//    public function deleteByAId($id)
+//    {
+//        return $this->vote->delete($id);
+//    }
 }

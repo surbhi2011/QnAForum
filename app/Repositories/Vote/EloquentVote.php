@@ -57,6 +57,9 @@ class EloquentVote implements VoteRepository
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $que = $this->getAnswerByQId($id)->toArray();
+        $ids = array_map(function($item){ return $item['id']; }, $que);
+        $this->model->destroy($ids);
+        return true;
     }
 }

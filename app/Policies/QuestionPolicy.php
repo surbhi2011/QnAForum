@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Category;
 use App\User;
 use App\Question;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use phpDocumentor\Reflection\Types\Null_;
 
 class QuestionPolicy
 {
@@ -28,9 +30,14 @@ class QuestionPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user,$id)
     {
-        return $user->id > 0;
+        $cat = Category::find($id);
+        if($cat == null)
+            return false;
+        else
+            return true;
+        //return $user->id > 0;
     }
 
     /**
@@ -42,11 +49,7 @@ class QuestionPolicy
      */
     public function update(User $user, Question $question)
     {
-        /*if(auth()->user()->id !== $question->user_id)
-        {
-            abort(401,"unauthorized");
-        }*/
-        return $user->id == $question->user_id;
+        return $user->id === $question->user_id;
     }
 
     /**
@@ -58,14 +61,9 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question)
     {
-        /*if(auth()->user()->id !== $question->user_id)
-        {
-            abort(401,"unauthorized");
-        }*/
-        if(($user->id == $question->user_id) || $question->user_id == 1)
-            return TRUE;
-        else
-            return FALSE;
+        //return TRUE;
+        //$user1 = Auth::user();
+        return ($user->id === $question->user_id);
     }
 
     /**
@@ -90,5 +88,14 @@ class QuestionPolicy
     public function forceDelete(User $user, Question $question)
     {
         //
+    }
+
+    public function upvote(User $user,Question $question)
+    {
+        dd('sjjk');
+//        if($question->user_id !== $user->id)
+//            return TRUE;
+//        else
+//            return FALSE;
     }
 }

@@ -64,8 +64,7 @@ class EloquentAnswer implements AnswerRepository
 
     public function remove($id)
     {
-        $this->getAnswerById($id)->delete();
-        return true;
+        return $this->model->del($id);
     }
 //
 //    public function removeAnswer($id)
@@ -75,4 +74,6 @@ class EloquentAnswer implements AnswerRepository
 //        $this->model->destroy($ids);
 //        return true;
 //    }
+
+
 }
