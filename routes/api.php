@@ -58,7 +58,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/{id}/count','AnswerController@getCount');
         Route::get('/', 'AnswerController@getAllAnswers')->middleware('can:view,App\Answer');
         Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
-        Route::post('/{id}', 'AnswerController@store')->middleware('can:create, id');
+        Route::post('/{id}', 'AnswerController@store')->middleware('can:create,id');
         Route::patch('/{id}','AnswerController@update')->middleware('can:update, id');
         //Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');

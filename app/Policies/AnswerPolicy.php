@@ -31,8 +31,8 @@ class AnswerPolicy
      */
     public function create(User $user, Answer $answer)
     {
-
-        var_dump($answer);
+       dd('dd');
+       // var_dump($answer);
         //var_dump($answer);
 //        $question = Question::find($answer->qid)->toArray();
 //
