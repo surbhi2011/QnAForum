@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         Question::class => QuestionPolicy::class,
         Answer::class => AnswerPolicy::class,
         Vote::class => VotePolicy::class,
-        Category::class => CategoryPolicy::class,
+        Category::class => CategoryPolicy::class
 
     ];
 
