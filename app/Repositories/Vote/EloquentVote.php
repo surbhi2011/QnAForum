@@ -52,7 +52,6 @@ class EloquentVote implements VoteRepository
 
     public function create($attr)
     {
-        //dd($attr);
         return $this->vote->add($attr);
     }
 

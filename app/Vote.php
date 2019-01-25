@@ -15,7 +15,6 @@ class Vote extends Model
     {
         $user = Auth::user();
         $uid = $user->id;
-        //dd($uid);
         return $this->create([
             'type' => $attr['type'],
             'user_id' => $uid,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Repositories\Answer\AnswerRepository;
+use App\Vote;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -110,5 +111,25 @@ class AnswerController extends Controller
     public function getCount($id)
     {
         return $this->answer->getCountAnswers($id);
+    }
+
+    public function upVote($id)
+    {
+        $data = [
+            'type' => 1,
+            'voteable_type' => Answer::class,
+            'voteable_id' => $id
+        ];
+        return (new Vote())->add($data);
+    }
+
+    public function downVote($id)
+    {
+        $data = [
+            'type' => 0,
+            'voteable_type' => Answer::class,
+            'voteable_id' => $id
+        ];
+        return (new Vote())->add($data);
     }
 }
