@@ -10,6 +10,8 @@ use App\Policies\QuestionPolicy;
 use App\Policies\VotePolicy;
 use App\Question;
 use App\Vote;
+use App\User;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -26,8 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Question::class => QuestionPolicy::class,
         Answer::class => AnswerPolicy::class,
         Vote::class => VotePolicy::class,
-        Category::class => CategoryPolicy::class
-
+        Category::class => CategoryPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     /**

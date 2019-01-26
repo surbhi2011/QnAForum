@@ -33,21 +33,13 @@ class EloquentUser implements UserRepository
         return $this->model->add($attr);
     }
 
-    public function update($id,array $attr)
+    public function edit($id,array $attr)
     {
-        $user = $this->model->findOrFail($id);
-        $user->update($attr);
-        return $user;
+        return $this->model->up($id,$attr);
     }
 
     public function remove($id)
     {
-       // dd($this->getById($id)->roles()->get()->toArray());
-        $user=  $this->getById($id);
-
-        $user->delete();
-        $user->userroles()->delete();
-
-        return "true";
+        return $this->model->del($id);
     }
 }

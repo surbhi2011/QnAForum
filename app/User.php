@@ -3,7 +3,7 @@
 namespace App;
 use DB;
 use App\User_Roles;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
@@ -40,6 +40,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $redirectedTo = '/home';
+    private $users;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->users = Auth::user();
+    }
 
     public function add(array $attributes)
     {
@@ -48,10 +55,29 @@ class User extends Authenticatable implements JWTSubject
             'email' => $attributes[1],
             'password' => Hash::make($attributes[2]),
         ]);
-
         User_Roles::addUserRole();
-
         return $user;
+    }
+
+    public function up($id,array $attr)
+    {
+        $u = User::find($id);
+        dd('kldms');
+        if($this->users->can('update', $u)) {
+            dd('jdaksldm');
+            $us = $this->findOrFail($id);
+            $us->update($attr);
+            return $us;
+        }
+        return "Unauthorized";
+    }
+
+    public function del($id)
+    {
+        $user=  $this->getById($id);
+        $user->delete();
+        $user->userroles()->delete();
+        return true;
     }
 
     public function getJWTIdentifier()
