@@ -47,6 +47,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $redirectedTo = '/home';
+    private $users;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->users = Auth::user();
+    }
 
     public function add(array $attributes)
     {
@@ -55,9 +62,7 @@ class User extends Authenticatable implements JWTSubject
             'email' => $attributes[1],
             'password' => Hash::make($attributes[2]),
         ]);
-
         User_Roles::addUserRole();
-
         return $user;
     }
     public function up($id, array $attributes)
@@ -69,8 +74,7 @@ class User extends Authenticatable implements JWTSubject
 
             $user->update($attributes);
             return $user;
-
-        }
+         }
         else
             return "unauthorized";
     }

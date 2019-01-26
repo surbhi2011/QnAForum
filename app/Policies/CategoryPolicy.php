@@ -30,7 +30,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**
@@ -42,7 +42,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**
@@ -54,7 +54,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**

@@ -29,6 +29,6 @@ class EloquentRole implements RoleRepositoryInterface
 
     public function delete($id)
     {
-        $this->role->del($id)->delete();
+        return $this->role->del($id);
     }
 }
