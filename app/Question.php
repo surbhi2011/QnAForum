@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
+use App\Answer;
 
 class Question extends Model
 {
@@ -44,8 +45,14 @@ class Question extends Model
 
     public function del($id)
     {
-
-        Question::find($id)->answers()->delete();
+        $ans=Question::find($id)->answers()->get();
+        //dd($ans);
+        foreach ($ans as $a)
+        {
+            $a->del($a->id);
+        }
+      // Question::find($id)->answers()->delete();
+        //dd('test');
         Question::find($id)->votes()->delete();
         Question::find($id)->delete();
         //$question = Question::where('id',$id)->get();

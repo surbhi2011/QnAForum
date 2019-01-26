@@ -22,8 +22,8 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
-        Route::post('ask/{id}','QuestionController@store')->middleware('can:create,$id');
-        Route::patch('update/{id}','QuestionController@updatequestion')->middleware('can:update,id');
+        Route::post('ask/{id}','QuestionController@store');
+        Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('list/{id}','QuestionController@getQuestionList');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');
         Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/{id}/count','AnswerController@getCount');
         Route::get('/', 'AnswerController@getAllAnswers');
         Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
-        Route::post('/{id}', 'AnswerController@store')->middleware('can:create, id');
+        Route::post('/{id}', 'AnswerController@store');
         Route::patch('/{id}','AnswerController@update');
         //Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');
@@ -71,7 +71,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
     Route::prefix('role')->group(function ()
     {
        Route::post('create','RoleController@store');
-       Route::patch('update/{id}','RoleController@updaterole')->middleware('can:update,id');
+       Route::patch('update/{id}','RoleController@updaterole');
        Route::delete('delete/{id}','RoleController@destroy');
     });
 
