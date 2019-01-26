@@ -22,8 +22,8 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
-        Route::post('ask/{id}','QuestionController@store')->middleware('can:create,$id');
-        Route::patch('update/{id}','QuestionController@updatequestion')->middleware('can:update,id');
+        Route::post('ask/{id}','QuestionController@store');
+        Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('list/{id}','QuestionController@getQuestionList');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');
         Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
@@ -39,7 +39,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('category')->group(function () {
         Route::post('create','CategoryController@store');
-        Route::patch('update/{id}','CategoryController@updatecategory')->middleware('can:update,id');
+        Route::patch('update/{id}','CategoryController@updatecategory');
         Route::delete('delete/{id}','CategoryController@destroy');
         Route::get('{id}','CategoryController@getCategoryById');
     });
@@ -48,7 +48,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/count', 'UserController@getCount');
         Route::get('/','UserController@getAllUsers');
         Route::get('/{id}', 'UserController@getuser');
-        Route::patch('/{id}','UserController@update')->middleware('can:update,id');
+        Route::patch('/{id}','UserController@updateuser');
         Route::delete('/{id}','UserController@delete');
     });
 
@@ -56,11 +56,10 @@ Route::group(['middleware' => ['jwt.auth']], function (){
     Route::prefix('answer')->group(function (){
         Route::get('/ans', 'AnswerController@getUserAnswers');
         Route::get('/{id}/count','AnswerController@getCount');
-        Route::get('/', 'AnswerController@getAllAnswers')->middleware('can:view,App\Answer');
+        Route::get('/', 'AnswerController@getAllAnswers');
         Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
-        Route::post('/{id}', 'AnswerController@store')->middleware('can:create,id');
-        Route::patch('/{id}','AnswerController@update')->middleware('can:update, id');
-        //Route::delete('/{id}/question','AnswerController@deleteAnswer');
+        Route::post('/{qid}', 'AnswerController@store');
+        Route::patch('/{id}','AnswerController@update');
         Route::delete('/{id}','AnswerController@delete');
         Route::post('/upvote/{id}','AnswerController@upVote');
         Route::post('/downvote/{id}','AnswerController@downVote');

@@ -32,9 +32,9 @@ class AnswerController extends Controller
     {
         return $this->answer->create($qid,request(['description']));
     }
-    public function update($id, Request $request)
+    public function update($id)
     {
-        return $this->answer->update($id,$request->all());
+        return $this->answer->update($id,request(['description']));
     }
     public function delete($id)
     {

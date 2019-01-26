@@ -3,7 +3,7 @@
 namespace App;
 use DB;
 use App\User_Roles;
-
+use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
@@ -22,12 +22,19 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
+  //  private $user;
     protected $dates = ['deleted_at'];
     protected $fillable = [
         'name', 'email', 'password'
     ];
 
 //    protected $softCascade = ['userroles'];
+
+    /*public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->user = Auth::user();
+    }*/
 
     public $timestamps = true;
     /**
@@ -53,7 +60,43 @@ class User extends Authenticatable implements JWTSubject
 
         return $user;
     }
+    public function up($id, array $attributes)
+    {
+        $u = Auth::user();
+        $user = User::findOrFail($id);
+        //dd($user->toArray());
+        if ($u->can('update', $user)) {
 
+            $user->update($attributes);
+            return $user;
+
+        }
+        else
+            return "unauthorized";
+    }
+    public function getUserCount()
+    {
+        $u = Auth::user();
+        if ($u->can('view', User::class)) {
+
+            $user = User::all()->count();
+            return $user;
+        }
+    }
+    public function del($id)
+    {
+        $u= Auth::user();
+        $model = User::findOrFail($id);
+        if($u->can('delete',$model)) {
+           // dd('test');
+            $user = User::findOrFail($id);
+            $user->delete();
+            $user->userroles()->delete();
+            return "TRUE";
+        }
+        else
+            return "FALSE";
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();

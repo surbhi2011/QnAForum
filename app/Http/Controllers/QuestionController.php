@@ -26,8 +26,8 @@ class QuestionController extends Controller
    }
    public function updatequestion($id)
    {
-       $this->question->update(request(['title','description']),$id);
-        return $this->question->getQuestionById($id);
+      return $this->question->update(request(['title','description']),$id);
+   //     return $this->question->getQuestionById($id);
    }
    public function destroy($id)
    {

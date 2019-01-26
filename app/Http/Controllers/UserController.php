@@ -27,12 +27,12 @@ class UserController extends Controller
 
     public function getCount()
     {
-        $cnt = $this->user->getAll()->count();
+        $cnt = $this->user->getAll();
         return "Total ".$cnt." Users.";
     }
-    public function update($id,Request $request)
+    public function updateuser($id)
     {
-        return $this->user->update($id, \request(['name','email']));
+        return $this->user->update($id, request(['name','email']));
     }
 
     public function delete($id)

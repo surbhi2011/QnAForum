@@ -19,9 +19,9 @@ class QuestionPolicy
      * @param  \App\Question  $question
      * @return mixed
      */
-    public function view(User $user, Question $question)
+    public function view(User $user)
     {
-        return TRUE;
+        return ($user->id === 1);
     }
 
     /**
@@ -61,9 +61,10 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question)
     {
-        //return TRUE;
-        //$user1 = Auth::user();
-        return ($user->id === $question->user_id);
+        if(($user->id === $question->user_id) || ($user->id === 1))
+            return TRUE;
+        else
+            return FALSE;
     }
 
     /**

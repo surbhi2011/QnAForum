@@ -57,9 +57,7 @@ class EloquentAnswer implements AnswerRepository
 
     public function update($id, array $attributes)
     {
-        $ans = $this->model->findOrFail($id);
-        $ans->update($attributes);
-        return $ans;
+        return $this->model->up($id, $attributes);
     }
 
     public function remove($id)

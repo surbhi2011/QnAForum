@@ -9,9 +9,15 @@ use App\Answer;
 
 class Question extends Model
 {
+    private $user;
     protected $fillable=[
       'title','description','user_id','category_id'
     ];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->user = Auth::user();
+    }
 
     public function answers()
     {
@@ -25,7 +31,7 @@ class Question extends Model
 
     public function add(array $attributes, $id)
     {
-//        dd($attributes['title']);
+//      dd($attributes['title']);
         $user = Auth::user();
         $uid = $user->id;
         $question = Question::create([
@@ -38,24 +44,36 @@ class Question extends Model
     }
     public function up(array $attributes, $id)
     {
-        $question =Question::find($id);
-        $question->update($attributes);
-        return $question;
+        $que = Question::findOrFail($id);
+        if ($this->user->can('update', $que))
+        {
+            $question = Question::findOrFail($id);
+            $question->update($attributes);
+            return $question;
+        }
     }
 
     public function del($id)
     {
-        $ans=Question::find($id)->answers()->get();
-        //dd($ans);
-        foreach ($ans as $a)
-        {
-            $a->del($a->id);
+        $que = Question::findOrFail($id);
+        if ($this->user->can('delete', $que)) {
+            $ans = Question::find($id)->answers()->get();
+            //dd($ans);
+            foreach ($ans as $a) {
+                $a->del($a->id);
+            }
+            // Question::find($id)->answers()->delete();
+            //dd('test');
+            Question::find($id)->votes()->delete();
+            Question::find($id)->delete();
+            //$question = Question::where('id',$id)->get();
+
         }
-      // Question::find($id)->answers()->delete();
-        //dd('test');
-        Question::find($id)->votes()->delete();
-        Question::find($id)->delete();
-        //$question = Question::where('id',$id)->get();
+    }
+    public function gall()
+    {
+        $question = Question::all();
+        return $question;
     }
     public function getQuestion($id)
     {
@@ -92,6 +110,12 @@ class Question extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+    public function getAllQuestionCount()
+    {
+        if($this->user->can('view',Question::class)){
+            return $this->gall()->count();
+        }
     }
 
 }

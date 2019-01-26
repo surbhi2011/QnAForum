@@ -24,7 +24,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getAll()
     {
-        return $this->question->all();
+        return $this->question->gall();
     }
 
     public function create(array $attributes,$id)
@@ -35,7 +35,6 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function update(array $attributes, $id)
     {
-
         return $this->question->up($attributes,$id);
     }
 
@@ -94,7 +93,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getAllCount()
     {
-        return $this->getAll()->count();
+        return $this->question->getAllQuestionCount();
     }
 
 }

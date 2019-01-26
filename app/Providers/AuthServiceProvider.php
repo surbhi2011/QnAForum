@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Answer;
+use App\User;
 use App\Category;
 use App\Policies\AnswerPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\QuestionPolicy;
 use App\Policies\VotePolicy;
+use App\Policies\AllowPolicy;
 use App\Question;
 use App\Vote;
 use Illuminate\Support\Facades\Gate;
@@ -26,7 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Question::class => QuestionPolicy::class,
         Answer::class => AnswerPolicy::class,
         Vote::class => VotePolicy::class,
-        Category::class => CategoryPolicy::class
+        Category::class => CategoryPolicy::class,
+        User::class => AllowPolicy::class
 
     ];
 

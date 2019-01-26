@@ -29,22 +29,13 @@ class AnswerPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user, Answer $answer)
+    public function create(User $user, Answer $answer, Question $question)
     {
-       dd('dd');
-       // var_dump($answer);
-        //var_dump($answer);
-//        $question = Question::find($answer->qid)->toArray();
-//
-//
-//        if ($question->id === $answer->question_id)
-//        {
-//            return TRUE;
-//        }
-//        else
-//        {
-//            return FALSE;
-//        }
+        if ($user->id !== $question->user_id) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
     /**
      * Determine whether the user can update the answer.
@@ -55,7 +46,7 @@ class AnswerPolicy
      */
     public function update(User $user, Answer $answer)
     {
-        return $user->id === $answer->id;
+        return $user->id === $answer->user_id;
     }
 
     /**
@@ -67,7 +58,7 @@ class AnswerPolicy
      */
     public function delete(User $user, Answer $answer)
     {
-        if(($user->id === $answer->user_id) || $answer->user_id === 1)
+        if(($user->id === $answer->user_id) || $user->id === 1)
             return TRUE;
         else
             return FALSE;

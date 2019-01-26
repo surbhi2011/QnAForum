@@ -20,7 +20,7 @@ class EloquentUser implements UserRepository
 
     public function getAll()
     {
-        return $this->model->all();
+        return $this->model->getUserCount();
     }
 
     public function getById($id)
@@ -35,19 +35,19 @@ class EloquentUser implements UserRepository
 
     public function update($id,array $attr)
     {
-        $user = $this->model->findOrFail($id);
-        $user->update($attr);
-        return $user;
+        return $this->model->up($id,$attr);
     }
 
     public function remove($id)
     {
        // dd($this->getById($id)->roles()->get()->toArray());
-        $user=  $this->getById($id);
+        return $this->model->del($id);
+        //return "TRUE";
+ /*       $user=  $this->getById($id);
 
         $user->delete();
         $user->userroles()->delete();
 
         return "true";
-    }
+   */ }
 }

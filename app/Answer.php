@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     //
+    private $user;
     protected $fillable = [
         'description','question_id','user_id'
     ];
-
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->user = Auth::user();
+    }
     public function question()
     {
         return $this->belongsTo('App\Question','question_id','id');
@@ -24,25 +29,45 @@ class Answer extends Model
 
     public function add($qid,array $attributes)
     {
-        $user = Auth::user();
-        $id = $user->id;
-        $answer = Answer::create([
-            'description' => $attributes['description'],
-            'user_id' => $id,
-            'question_id' => $qid
-        ]);
-        return $answer;
+        $que= Question::findOrFail($qid);
+
+       // dd($que->toArray());
+        $answer = new Answer();
+        if($this->user->can('create',[$answer,$que])) {
+            //dd('test');
+            $id = $this->user->id;
+            $answer = Answer::create([
+                'description' => $attributes['description'],
+                'user_id' => $id,
+                'question_id' => $qid
+            ]);
+            return $answer;
+        }
     }
 
     public function del($id)
     {
-        Answer::find($id)->votes()->delete();
-        Answer::find($id)->delete();
-        return true;
+        $ans= Answer::findOrFail($id);
+        if($this->user->can('delete',$ans)) {
+            Answer::find($id)->votes()->delete();
+            Answer::find($id)->delete();
+            return "true";
+        }
+        return "unauthorized";
     }
-
+    public function up($id, array $attributes)
+    {
+        $ans = Answer::findOrFail($id);
+        if($this->user->can('update',$ans)) {
+            $ans = Answer::findOrFail($id);
+            $ans->update($attributes);
+            return $ans;
+        }
+        return "uthauthorized";
+    }
     public static function getAnswer($id)
     {
+
         $ans = Answer::find($id);
         $a = new Answer();
         $up = (new Vote())->getUpvote($id,$a)->count();
