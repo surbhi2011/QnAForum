@@ -37,7 +37,7 @@ class EloquentCategory implements CategoryRepositoryInterface
 
     public function delete($id)
     {
-        return $this->category->del($id)->delete();
+        return $this->category->del($id);
     }
 
 }

@@ -19,7 +19,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**
@@ -30,7 +30,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**
@@ -42,7 +42,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**
@@ -54,7 +54,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->id == 1;
+        return $user->id === 1;
     }
 
     /**

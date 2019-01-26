@@ -6,33 +6,53 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
 
-
 class Category extends Model
 {
+    private $user;
     protected $fillable=[
-        'name'
+        'name',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->user = Auth::user();
+    }
+
     public function getCategory($id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return $category;
     }
+
     public function add($attributes)
     {
-        $category = Category::create([
-            'name' => $attributes['name'],
-        ]);
-        return $category;
+        if($this->user->can('create',Category::class))
+        {
+            $category = Category::create([
+                'name' => $attributes['name'],
+            ]);
+            return $category;
+        }
+        return "Unauthorized";
     }
     public function up($attributes,$id)
     {
-        $category = Category::find($id);
-        $category->update($attributes);
+        $cat = Category::findOrFail($id);
+        if($this->user->can('update',$cat)) {
+            $cat->update($attributes);
+            return $cat;
+        }
+        return "Unauthorized";
     }
     public function del($id)
     {
-        $category = Category::find($id);
-        return $category;
+        $cat = Category::findOrFail($id);
+        if($this->user->can('delete',$cat)) {
+            $cat->delete();
+            return "true";
+        }
+        return "Unauthorized";
     }
     public function questions()
     {
