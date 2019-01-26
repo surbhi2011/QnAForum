@@ -17,17 +17,15 @@ Route::post('/register','AuthController@register');
 
 Route::post('/login', 'AuthController@login')->name('login');
 
-//Route::get('/user','AuthController@getAllUsers');
-
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
+        Route::get('/all','QuestionController@show');
         Route::post('ask/{id}','QuestionController@store');
         Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('list/{id}','QuestionController@getQuestionList');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');
         Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
-        Route::get('/all','QuestionController@show');
         Route::delete('delete/{id}','QuestionController@destroy');
         Route::get('old','QuestionController@showQuestionsOldestFirst');
         Route::get('count','QuestionController@getCount');
@@ -45,10 +43,10 @@ Route::group(['middleware' => ['jwt.auth']], function (){
     });
 
     Route::prefix('user')->group(function (){
-        Route::patch('update/{id}','UserController@updateUser');
         Route::get('/count', 'UserController@getCount');
         Route::get('/','UserController@getAllUsers');
         Route::get('/{id}', 'UserController@getuser');
+        Route::patch('/{id}','UserController@update');
         Route::delete('/{id}','UserController@delete');
     });
 
@@ -58,9 +56,8 @@ Route::group(['middleware' => ['jwt.auth']], function (){
         Route::get('/{id}/count','AnswerController@getCount');
         Route::get('/', 'AnswerController@getAllAnswers');
         Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
-        Route::post('/{id}', 'AnswerController@store');
+        Route::post('/{qid}', 'AnswerController@store');
         Route::patch('/{id}','AnswerController@update');
-        //Route::delete('/{id}/question','AnswerController@deleteAnswer');
         Route::delete('/{id}','AnswerController@delete');
         Route::post('/upvote/{id}','AnswerController@upVote');
         Route::post('/downvote/{id}','AnswerController@downVote');

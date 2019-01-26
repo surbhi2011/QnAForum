@@ -21,9 +21,10 @@ class Category extends Model
 
     public function getCategory($id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return $category;
     }
+
     public function add($attributes)
     {
         if($this->user->can('create',Category::class))
@@ -37,20 +38,19 @@ class Category extends Model
     }
     public function up($attributes,$id)
     {
-        $cat = Category::find($id);
+        $cat = Category::findOrFail($id);
         if($this->user->can('update',$cat)) {
-            $category = Category::find($id);
-            $category->update($attributes);
-            return $category;
+            $cat->update($attributes);
+            return $cat;
         }
         return "Unauthorized";
     }
     public function del($id)
     {
-        $cat = Category::find($id);
+        $cat = Category::findOrFail($id);
         if($this->user->can('delete',$cat)) {
-            $category = Category::find($id);
-            return $category;
+            $cat->delete();
+            return "true";
         }
         return "Unauthorized";
     }

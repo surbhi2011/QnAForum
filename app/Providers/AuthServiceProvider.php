@@ -7,8 +7,10 @@ use App\Category;
 use App\Policies\AnswerPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\QuestionPolicy;
+use App\Policies\RolePolicy;
 use App\Policies\VotePolicy;
 use App\Question;
+use App\Role;
 use App\Vote;
 use App\User;
 use App\Policies\UserPolicy;
@@ -29,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Answer::class => AnswerPolicy::class,
         Vote::class => VotePolicy::class,
         Category::class => CategoryPolicy::class,
-        User::class => UserPolicy::class
+        Role::class => RolePolicy::class
     ];
 
     /**
