@@ -63,7 +63,7 @@ class QuestionController extends Controller
    }
    public function getCount()
    {
-       return $this->question->getAllCount();
+       return json_encode($this->question->getAllCount());
    }
    public function upvote($id)
    {
