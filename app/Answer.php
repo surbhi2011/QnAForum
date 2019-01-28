@@ -43,6 +43,7 @@ class Answer extends Model
             ]);
             return $answer;
         }
+        return "U can not answer to your own question.";
     }
 
     public function del($id)
@@ -67,11 +68,10 @@ class Answer extends Model
     }
     public static function getAnswer($id)
     {
-
         $ans = Answer::find($id);
         $a = new Answer();
-        $up = (new Vote())->getUpvote($id,$a)->count();
-        $down = (new Vote())->getDownvote($id,$a)->count();
+        $up = $ans->votes()->where('type','1')->count();
+        $down = $ans->votes()->where('type','0')->count();
         $name = User::find($ans->user_id)->name;
         $data = [
             'Answer Description' => $ans->description,

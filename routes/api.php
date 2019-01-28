@@ -20,14 +20,13 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
+        Route::get('/','QuestionController@show');
         Route::get('/all','QuestionController@show');
         Route::post('ask/{id}','QuestionController@store');
         Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('list/{id}','QuestionController@getQuestionList');
         Route::get('user/{id}','QuestionController@showAllUserQuestions');
-        Route::get('category/{category}','QuestionController@showAllCategoryQuestions');
         Route::delete('delete/{id}','QuestionController@destroy');
-        Route::get('old','QuestionController@showQuestionsOldestFirst');
         Route::get('count','QuestionController@getCount');
         Route::post('upvote/{id}','QuestionController@upvote');
         Route::post('downvote/{id}','QuestionController@downvote');

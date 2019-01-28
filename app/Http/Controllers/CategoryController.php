@@ -77,7 +77,7 @@ class CategoryController extends Controller
     }
     public function store()
     {
-        $this->category->create(request(['name']));
+        return $this->category->create(request(['name']));
     }
     public function updatecategory($id)
     {
@@ -85,7 +85,7 @@ class CategoryController extends Controller
     }
     public function destroy($id)
     {
-        $this->category->delete($id);
+        return $this->category->delete($id);
     }
 
 }

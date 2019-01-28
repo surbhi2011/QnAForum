@@ -33,7 +33,7 @@ class QuestionPolicy
     public function create(User $user,$id)
     {
         $cat = Category::find($id);
-        if($cat == null)
+        if($cat === null)
             return false;
         else
             return true;

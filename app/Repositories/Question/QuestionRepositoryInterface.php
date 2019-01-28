@@ -13,7 +13,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 interface QuestionRepositoryInterface
 {
-    public function getAll();
+    public function getAll($type);
 
     public function create(array $attributes, $id);
 
@@ -26,8 +26,6 @@ interface QuestionRepositoryInterface
     public function getAllQuestionsByUserId($id);
 
     public function getAllQuestionsByCategory($id);
-
-    public function getByOldest();
 
     public function getAllCount();
 

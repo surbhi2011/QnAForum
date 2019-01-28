@@ -22,9 +22,9 @@ class EloquentQuestion implements QuestionRepositoryInterface
         $this->question = $q;
     }
 
-    public function getAll()
+    public function getAll($type)
     {
-        return $this->question->gall();
+        return $this->question->gall($type);
     }
 
     public function create(array $attributes,$id)
@@ -51,29 +51,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getList($id)
     {
-         $que = $this->getQuestionById($id);
-         $answers = $this->question->find($id)->answers()->get();
-         $acollect = [];
-         foreach ($answers as $ds)
-         {
-             $acollect[$id] = Answer::getAnswer($id);
-         }
-
-         $q = new Question();
-         $qup = (new Vote())->getUpvote($id,$q)->count();
-         $qdown = (new Vote())->getDownvote($id,$q)->count();
-         $name = User::find($que->user_id)->name;
-         $data = [
-             'id' => $id,
-             'title' => $que->title,
-             'description' => $que->description,
-             'Asked By' => $name,
-             'Answer' => $acollect,
-             'Question upvotes' => $qup,
-             'Question downvotes' => $qdown
-         ];
-         //dd($data);
-        return $data;
+         return $this->question->getList($id);
     }
 
     public function getAllQuestionsByUserId($id)
@@ -84,11 +62,6 @@ class EloquentQuestion implements QuestionRepositoryInterface
     public function getAllQuestionsByCategory($category)
     {
         return $this->question->getAllCategoryQuestions($category);
-    }
-
-    public function getByOldest()
-    {
-        return $this->question->getOldestFirst();
     }
 
     public function getAllCount()

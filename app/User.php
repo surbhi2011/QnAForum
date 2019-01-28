@@ -47,13 +47,6 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $redirectedTo = '/home';
-    private $users;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->users = Auth::user();
-    }
 
     public function add(array $attributes)
     {
@@ -70,36 +63,36 @@ class User extends Authenticatable implements JWTSubject
         $u = Auth::user();
         $user = User::findOrFail($id);
         //dd($user->toArray());
-        if ($u->can('update', $user)) {
+ //       if ($u->can('update', $user)) {
 
             $user->update($attributes);
             return $user;
-         }
-        else
-            return "unauthorized";
+   //      }
+     //   else
+       //     return "unauthorized";
     }
     public function getUserCount()
     {
         $u = Auth::user();
-        if ($u->can('view', User::class)) {
+        //if ($u->can('view', User::class)) {
 
             $user = User::all()->count();
             return $user;
-        }
+        //}
     }
     public function del($id)
     {
         $u= Auth::user();
         $model = User::findOrFail($id);
-        if($u->can('delete',$model)) {
+        //if($u->can('delete',$model)) {
            // dd('test');
             $user = User::findOrFail($id);
             $user->delete();
             $user->userroles()->delete();
             return "TRUE";
-        }
-        else
-            return "FALSE";
+        //}
+        //else
+          //  return "FALSE";
     }
     public function getJWTIdentifier()
     {
