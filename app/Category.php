@@ -8,21 +8,27 @@ use Auth;
 
 class Category extends Model
 {
-    private $user;
-    protected $fillable=[
-        'name',
-    ];
+//    private $user;
+//    protected $fillable=[
+//        'name',
+//    ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->user = Auth::user();
+//        $this->user = Auth::user();
     }
 
     public function getCategory($id)
     {
         $category = Category::findOrFail($id);
         return $category;
+    }
+
+    public function getNameAttribute()
+    {
+        //dd($this->attributes['name']);
+        return $this->attributes['name'];
     }
 
     public function add($attributes)

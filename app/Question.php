@@ -2,6 +2,7 @@
 
 namespace App;
 
+use http\Client\Response;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
@@ -80,11 +81,12 @@ class Question extends Model
 
         foreach ($question as $que)
         {
-            $que->Total_Answers = $que->answers()->count();
+            $que->category_name = $que->category->name;
+            $que->total_answers = $que->answers()->count();
             $que->upvote = $que->votes()->where('type','1')->count();
             $que->downvote = $que->votes()->where('type','0')->count();
         }
-        return $question;
+        return $question->makeHidden('category');
     }
     public function getQuestion($id)
     {
@@ -142,14 +144,21 @@ class Question extends Model
     }
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Category','category_id','id');
     }
     public function getAllQuestionCount()
     {
         if($this->user->can('view',Question::class)){
-            return $this->gall()->count();
+            return ($this->gall("asc")->count());
         }
-        return "You can not see no of questions.";
+        //return json_encode("You can not see no of questions.");
+//        $response  = [
+//            "message" => "You can not see no of questions.",
+//            "data" =>
+//        ];
+
+        //return \response()->json($response);
+        return false;
     }
 
 }

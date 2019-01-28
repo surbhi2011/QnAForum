@@ -28,6 +28,7 @@ class QuestionController extends Controller
            $type = $request->query('sort');
            return $this->question->getAll($type);
        }
+       return $this->question->getAll("asc");
    }
    public function store($id)
    {
