@@ -36,13 +36,10 @@ class QuestionController extends Controller
    public function updatequestion($id)
    {
       return $this->question->update(request(['title','description']),$id);
-   //     return $this->question->getQuestionById($id);
    }
    public function destroy($id)
    {
-       //dd($this->authorize('delete','$id'));
-       $this->question->delete($id);
-       return view('home');
+       return $this->question->delete($id);
    }
    public function getQuestionById($id)
    {
@@ -52,14 +49,9 @@ class QuestionController extends Controller
    {
        return $this->question->getList($id);
    }
-
    public function showAllUserQuestions($id)
    {
        return $this->question->getAllQuestionsByUserId($id);
-   }
-   public function showAllCategoryQuestions(Request $request)
-   {
-
    }
    public function getCount()
    {

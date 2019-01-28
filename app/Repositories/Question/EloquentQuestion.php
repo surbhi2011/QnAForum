@@ -32,7 +32,6 @@ class EloquentQuestion implements QuestionRepositoryInterface
         return $this->question->add($attributes,$id);
 
     }
-
     public function update(array $attributes, $id)
     {
         return $this->question->up($attributes,$id);
