@@ -43,7 +43,10 @@ class Answer extends Model
             ]);
             return $answer;
         }
-        return "U can not answer to your own question.";
+        $response= [
+            "message"=>"You can not answer to your own question."
+        ];
+        return response()->json($response);
     }
 
     public function del($id)
@@ -52,9 +55,15 @@ class Answer extends Model
         if($this->user->can('delete',$ans)) {
             Answer::find($id)->votes()->delete();
             Answer::find($id)->delete();
-            return "true";
+            $response= [
+                "message"=>"Answer deleted"
+            ];
+            return response()->json($response);
         }
-        return "unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
     }
     public function up($id, array $attributes)
     {
@@ -64,7 +73,10 @@ class Answer extends Model
             $ans->update($attributes);
             return $ans;
         }
-        return "uthauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
     }
     public static function getAnswer($id)
     {

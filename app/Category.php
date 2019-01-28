@@ -40,7 +40,6 @@ class Category extends Model
             ]);
             return $category;
         }
-        return "Unauthorized";
     }
     public function up($attributes,$id)
     {
@@ -49,7 +48,10 @@ class Category extends Model
             $cat->update($attributes);
             return $cat;
         }
-        return "Unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
     }
     public function del($id)
     {
@@ -58,7 +60,11 @@ class Category extends Model
             $cat->delete();
             return "true";
         }
-        return "Unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
+
     }
     public function questions()
     {

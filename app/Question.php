@@ -52,9 +52,12 @@ class Question extends Model
             $question->update($attributes);
             return $question;
         }
-        return "Unauthorized";
-    }
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
 
+    }
     public function del($id)
     {
         $que = Question::findOrFail($id);
@@ -71,6 +74,10 @@ class Question extends Model
             //$question = Question::where('id',$id)->get();
 
         }
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
     }
     public function gall($type)
     {
@@ -149,16 +156,17 @@ class Question extends Model
     public function getAllQuestionCount()
     {
         if($this->user->can('view',Question::class)){
-            return ($this->gall("asc")->count());
+            $question= $this->gall("asc")->count();
+            $response = [
+                "message" => $question
+            ];
+                return response()->json($response);
         }
-        //return json_encode("You can not see no of questions.");
-//        $response  = [
-//            "message" => "You can not see no of questions.",
-//            "data" =>
-//        ];
 
-        //return \response()->json($response);
-        return false;
+        $response= [
+          "message"=>"You can not see no of questions."
+        ];
+        return response()->json($response);
     }
 
 }

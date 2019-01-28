@@ -43,7 +43,6 @@ class Vote extends Model
                 'voteable_type' => $attr['voteable_type']
             ]);
         }
-        return "Unauthorized";
     }
 
     public function voteable(){

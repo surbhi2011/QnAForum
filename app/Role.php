@@ -25,7 +25,11 @@ class Role extends Model
             ]);
             return $role;
         }
-        return "Unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
+
     }
 
     public function up($attributes,$id)
@@ -35,7 +39,11 @@ class Role extends Model
             $role->update($attributes);
             return $role;
         }
-        return "Unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
+
     }
     public function del($id)
     {
@@ -45,7 +53,11 @@ class Role extends Model
             $role->delete();
             return "true";
         }
-        return "Unauthorized";
+        $response= [
+            "message"=>"Unauthorized"
+        ];
+        return response()->json($response);
+
     }
 
     public function roles()

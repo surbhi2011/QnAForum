@@ -62,23 +62,14 @@ class User extends Authenticatable implements JWTSubject
     {
         $u = Auth::user();
         $user = User::findOrFail($id);
-        //dd($user->toArray());
- //       if ($u->can('update', $user)) {
-
-            $user->update($attributes);
-            return $user;
-   //      }
-     //   else
-       //     return "unauthorized";
+        $user->update($attributes);
+        return $user;
     }
     public function getUserCount()
     {
         $u = Auth::user();
-        //if ($u->can('view', User::class)) {
-
-            $user = User::all()->count();
-            return $user;
-        //}
+        $user = User::all()->count();
+        return $user;
     }
     public function del($id)
     {
