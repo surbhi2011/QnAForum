@@ -24,7 +24,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
 
     public function getAll($type)
     {
-        return $this->question->gall($type);
+        return $this->question->getAllQuestions($type);
     }
 
     public function create(array $attributes,$id)

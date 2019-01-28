@@ -2,7 +2,6 @@
 
 namespace App;
 
-use http\Client\Response;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
@@ -79,7 +78,7 @@ class Question extends Model
         ];
         return response()->json($response);
     }
-    public function gall($type)
+    public function getAllQuestions($type)
     {
         if($type == "desc")
             $question = Question::latest()->get();
@@ -107,26 +106,34 @@ class Question extends Model
     }
     public function getAllCategoryQuestions($category)
     {
-        $question = Category::where('name',$category)->first()->questions()->get();
+        $cat = Category::where('name',$category)->first();
+        if($cat!=null)
+        {
+            $question= $cat->questions()->get();
+        }
+        else
+        {
+            $question = Question::all();
+        }
         foreach ($question as $que)
         {
+            $que->category_name = $que->category->name;
             $que->Total_Answers = $que->answers()->count();
             $que->upvote = $que->votes()->where('type','1')->count();
             $que->downvote = $que->votes()->where('type','0')->count();
         }
-        return $question;
+        return $question->makeHidden('category');
     }
 
     public function getList($id)
     {
         $que = $this->getQuestion($id);
         $answers = $que->answers()->get();
-        $acollect = [];
+        $acollect = $que::with(['answers.votes' => function($ans){
+            //dd($ans->user_id);
+        }])->get();
+        //$que->load('answers')->votes();
         $cnt = $answers->count();
-        foreach ($answers as $ds)
-        {
-            $acollect[$ds->id] = Answer::getAnswer($ds->id);
-        }
 
         $q = new Question();
         $qup = $que->votes()->where('type','1')->count();
@@ -162,11 +169,9 @@ class Question extends Model
             ];
                 return response()->json($response);
         }
-
         $response= [
           "message"=>"You can not see no of questions."
         ];
         return response()->json($response);
     }
-
 }
