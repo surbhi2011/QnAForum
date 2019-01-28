@@ -56,7 +56,7 @@ class EloquentQuestion implements QuestionRepositoryInterface
          $acollect = [];
          foreach ($answers as $ds)
          {
-             $acollect[$id] = Answer::getAnswer($id);
+             $acollect[$ds->id] = Answer::getAnswer($ds->id);
          }
 
          $q = new Question();

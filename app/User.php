@@ -47,13 +47,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $redirectedTo = '/home';
-    private $users;
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->users = Auth::user();
-    }
 
     public function add(array $attributes)
     {

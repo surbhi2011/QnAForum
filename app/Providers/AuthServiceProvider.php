@@ -14,7 +14,6 @@ use App\Policies\AllowPolicy;
 use App\Question;
 use App\Role;
 use App\Vote;
-use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
