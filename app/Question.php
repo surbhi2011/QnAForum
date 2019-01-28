@@ -51,6 +51,7 @@ class Question extends Model
             $question->update($attributes);
             return $question;
         }
+        return "Unauthorized";
     }
 
     public function del($id)
@@ -70,9 +71,19 @@ class Question extends Model
 
         }
     }
-    public function gall()
+    public function gall($type)
     {
-        $question = Question::all();
+        if($type == "desc")
+            $question = Question::latest()->get();
+        else
+            $question = Question::all();
+
+        foreach ($question as $que)
+        {
+            $que->Total_Answers = $que->answers()->count();
+            $que->upvote = $que->votes()->where('type','1')->count();
+            $que->downvote = $que->votes()->where('type','0')->count();
+        }
         return $question;
     }
     public function getQuestion($id)
@@ -88,19 +99,42 @@ class Question extends Model
     }
     public function getAllCategoryQuestions($category)
     {
-        $question = Category::find($category)->questions()->get();
-        return $question;
-    }
-    public function getOldestFirst()
-    {
-        $question = Question::latest('id')->get();
+        $question = Category::where('name',$category)->first()->questions()->get();
+        foreach ($question as $que)
+        {
+            $que->Total_Answers = $que->answers()->count();
+            $que->upvote = $que->votes()->where('type','1')->count();
+            $que->downvote = $que->votes()->where('type','0')->count();
+        }
         return $question;
     }
 
     public function getList($id)
     {
-        $que = Question::find($id)->answers()-votes();
-        return $que;
+        $que = $this->getQuestion($id);
+        $answers = $que->answers()->get();
+        $acollect = [];
+        $cnt = $answers->count();
+        foreach ($answers as $ds)
+        {
+            $acollect[$ds->id] = Answer::getAnswer($ds->id);
+        }
+
+        $q = new Question();
+        $qup = $que->votes()->where('type','1')->count();
+        $qdown = $que->votes()->where('type','0')->count();
+        $name = User::find($que->user_id)->name;
+        $data = [
+            'id' => $id,
+            'title' => $que->title,
+            'description' => $que->description,
+            'Asked By' => $name,
+            'Total Answers' => $cnt,
+            'Answer' => $acollect,
+            'Question upvotes' => $qup,
+            'Question downvotes' => $qdown
+        ];
+        return $data;
     }
 
     public function user()
@@ -116,6 +150,7 @@ class Question extends Model
         if($this->user->can('view',Question::class)){
             return $this->gall()->count();
         }
+        return "You can not see no of questions.";
     }
 
 }

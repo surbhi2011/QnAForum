@@ -15,9 +15,19 @@ class QuestionController extends Controller
         $this->question = new EloquentQuestion($q);
    }
 
-   public function show()
+   public function show(Request $request)
    {
-       return $this->question->getAll();
+       $key = $request->keys();
+       if(in_array('category',$key))
+       {
+           $name = $request->query('category');
+           return $this->question->getAllQuestionsByCategory($name);
+       }
+       if(in_array('sort',$key))
+       {
+           $type = $request->query('sort');
+           return $this->question->getAll($type);
+       }
    }
    public function store($id)
    {
@@ -47,13 +57,9 @@ class QuestionController extends Controller
    {
        return $this->question->getAllQuestionsByUserId($id);
    }
-   public function showAllCategoryQuestions($category)
+   public function showAllCategoryQuestions(Request $request)
    {
-       return $this->question->getAllQuestionsByCategory($category);
-   }
-   public function showQuestionsOldestFirst()
-   {
-       return $this->question->getByOldest();
+
    }
    public function getCount()
    {
