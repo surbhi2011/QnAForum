@@ -98,7 +98,6 @@ class Question extends Model
         $question = Question::find($id);
         return $question;
     }
-
     public function getAllUserQuestions($id)
     {
         $question = User::find($id)->questions()->get();
