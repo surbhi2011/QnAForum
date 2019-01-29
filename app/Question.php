@@ -23,7 +23,6 @@ class Question extends Model
     {
         return $this->hasMany('App\Answer','question_id','id');
     }
-
     public function votes()
     {
         return $this->morphMany('App\Vote','voteable');
@@ -49,13 +48,15 @@ class Question extends Model
         {
             $question = Question::findOrFail($id);
             $question->update($attributes);
+            $question->category_name = $que->category->name;
+            $question->upvote = $que->votes()->where('type','1')->count();
+            $question->downvote = $que->votes()->where('type','0')->count();
             return $question;
         }
         $response= [
             "message"=>"Unauthorized"
         ];
         return response()->json($response);
-
     }
     public function del($id)
     {
@@ -68,10 +69,15 @@ class Question extends Model
             }
             // Question::find($id)->answers()->delete();
             //dd('test');
-            Question::find($id)->votes()->delete();
-            Question::find($id)->delete();
+            Question::findorFail($id)->votes()->delete();
+            Question::findorFail($id)->delete();
             //$question = Question::where('id',$id)->get();
+        //dd('test');
 
+            $response= [
+                "message"=>"Question Deleted"
+            ];
+            return response()->json($response);
         }
         $response= [
             "message"=>"Unauthorized"
@@ -91,18 +97,25 @@ class Question extends Model
             $que->total_answers = $que->answers()->count();
             $que->upvote = $que->votes()->where('type','1')->count();
             $que->downvote = $que->votes()->where('type','0')->count();
+            $que->questionAskedBy = $que->user->name;
         }
         return $question->makeHidden('category');
     }
     public function getQuestion($id)
     {
-        $question = Question::find($id);
+        $question = Question::findorFail($id);
         return $question;
     }
     public function getAllUserQuestions($id)
     {
-        $question = User::find($id)->questions()->get();
-        return $question;
+        $question = User::findorFail($id)->questions()->get();
+        foreach ($question as $que) {
+            $que->category_name = $que->category->name;
+            $que->upvote = $que->votes()->where('type','1')->count();
+            $que->downvote = $que->votes()->where('type','0')->count();
+            $que->questionAskedBy = User::findorFail($id)->name;
+        }
+        return $question->makeHidden('category');
     }
     public function getAllCategoryQuestions($category)
     {
@@ -129,29 +142,45 @@ class Question extends Model
     {
         $que = $this->getQuestion($id);
         $answers = $que->answers()->get();
-        $acollect = $que::with(['answers.votes' => function($ans){
-            //dd($ans->user_id);
-        }])->get();
-        //$que->load('answers')->votes();
-        $cnt = $answers->count();
+//        dd($que);
+//        dd($answers);
+//        $acollect = $que::with(['answers.votes' => function($ans){
+//            $ans->where('type','1')->count();
+//            //$ans->votes()->where('type','0')->count();
+//        }])->get();
 
-        $q = new Question();
-        $qup = $que->votes()->where('type','1')->count();
-        $qdown = $que->votes()->where('type','0')->count();
-        $name = User::find($que->user_id)->name;
-        $data = [
+//        $acollect = $que::with(['answers'])->get();
+         $que->load('answers');
+
+        foreach($que->answers as $q)
+        {
+            $q['upvotes']=$q->votes()->where('type','1')->count();
+            $q['downvotes']=$q->votes()->where('type','0')->count();
+            $q['answered by']=User::find($q->user_id)->name;
+        }
+//        foreach($acollect as $acol)
+//        {
+//            $acol->answers->aup= $acol->votes()->where('type','1')->count();
+//            $acol->answers->adown = $acol->votes()->where('type','0')->count();
+//        }
+
+        $que['category']=Category::find($que->category_id)->name;
+        $que['answers count'] = $answers->count();
+        $que['question upvotes'] = $que->votes()->where('type','1')->count();
+        $que['question down'] = $que->votes()->where('type','0')->count();
+        $que['questioned by']= User::find($que->user_id)->name;
+        /*$data = [
             'id' => $id,
             'title' => $que->title,
             'description' => $que->description,
             'Asked By' => $name,
             'Total Answers' => $cnt,
-            'Answer' => $acollect,
+            'Answer' => $acollect->answers,
             'Question upvotes' => $qup,
             'Question downvotes' => $qdown
-        ];
-        return $data;
+        ];*/
+        return $que->makeHidden('user_id');
     }
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -163,9 +192,9 @@ class Question extends Model
     public function getAllQuestionCount()
     {
         if($this->user->can('view',Question::class)){
-            $question= $this->gall("asc")->count();
+            $question= $this->getAllQuestions("asc")->count();
             $response = [
-                "message" => $question
+                "Total Questions" => $question
             ];
                 return response()->json($response);
         }

@@ -71,12 +71,26 @@ class Answer extends Model
         if($this->user->can('update',$ans)) {
             $ans = Answer::findOrFail($id);
             $ans->update($attributes);
+            $ans->upvotes = $ans->votes()->where('type','1')->count();
+            $ans->downvotes = $ans->votes()->where('type','0')->count();
+            $ans->answeredBy = User::findOrFail($ans->user_id)->name;
             return $ans;
         }
         $response= [
             "message"=>"Unauthorized"
         ];
         return response()->json($response);
+    }
+    public function getAnsById($id){
+
+        $ans = Question::findOrFail($id)->answers()->get();
+
+        foreach($ans as $a) {
+            $a->upvotes = $a->votes()->where('type','1')->count();
+            $a->downvotes = $a->votes()->where('type','0')->count();
+            $a->answeredBy = User::findOrFail($a->user_id)->name;
+        }
+        return $ans;
     }
     public static function getAnswer($id)
     {

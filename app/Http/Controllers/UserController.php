@@ -28,7 +28,10 @@ class UserController extends Controller
     public function getCount()
     {
         $cnt = $this->user->getAll();
-        return "Total ".$cnt." Users.";
+        $response= [
+            "Total Users"=> $cnt
+        ];
+        return response()->json($response);
     }
     public function updateuser($id)
     {

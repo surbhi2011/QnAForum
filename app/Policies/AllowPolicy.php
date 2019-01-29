@@ -42,7 +42,7 @@ class AllowPolicy
     public function update(User $user, User $model)
     {
         //$model->id=12;
-        return $user->id===$model->id;
+        return ($user->id===$model->id);
     }
 
     /**

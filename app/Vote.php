@@ -43,6 +43,10 @@ class Vote extends Model
                 'voteable_type' => $attr['voteable_type']
             ]);
         }
+        $response= [
+            "message"=>"You cannot upvote/downvote your own question/answer"
+        ];
+        return response()->json($response);
     }
 
     public function voteable(){

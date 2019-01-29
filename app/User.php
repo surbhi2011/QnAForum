@@ -61,29 +61,47 @@ class User extends Authenticatable implements JWTSubject
     public function up($id, array $attributes)
     {
         $u = Auth::user();
-        $user = User::findOrFail($id);
-        $user->update($attributes);
-        return $user;
+        $us = User::findOrFail($id);
+        if ($u->can('update', $us)) {
+            $us->update($attributes);
+            return $us;
+        }
+        $response= [
+            "message"=>"You can't update other user details"
+        ];
+        return response()->json($response);
+
     }
-    public function getUserCount()
+    public function getAllUsers()
     {
         $u = Auth::user();
-        $user = User::all()->count();
-        return $user;
+        if($u->can('view',$u))
+        {
+            $user = User::all();
+            return $user;
+        }
     }
     public function del($id)
     {
         $u= Auth::user();
-        $model = User::findOrFail($id);
+        $us = User::findOrFail($id);
         //if($u->can('delete',$model)) {
            // dd('test');
-            $user = User::findOrFail($id);
-            $user->delete();
-            $user->userroles()->delete();
-            return "TRUE";
-        //}
-        //else
-          //  return "FALSE";
+        if ($u->can('delete', $us)) {
+            $us->delete();
+            $us->userroles()->delete();
+
+            $response= [
+                "message"=>"user deleted"
+            ];
+
+            return response()->json($response);
+        }
+        $response= [
+            "message"=>"You can not delete a user"
+        ];
+        return response()->json($response);
+
     }
     public function getJWTIdentifier()
     {

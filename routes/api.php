@@ -21,7 +21,7 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('question')->group(function (){
         Route::get('/','QuestionController@show');
-        Route::get('/all','QuestionController@show');
+//        Route::get('/all','QuestionController@show');
         Route::post('ask/{id}','QuestionController@store');
         Route::patch('update/{id}','QuestionController@updatequestion');
         Route::get('list/{id}','QuestionController@getQuestionList');
@@ -52,9 +52,9 @@ Route::group(['middleware' => ['jwt.auth']], function (){
 
     Route::prefix('answer')->group(function (){
         Route::get('/ans', 'AnswerController@getUserAnswers');
-        Route::get('/{qid}/count','AnswerController@getCount');
-        Route::get('/', 'AnswerController@getAllAnswers');
-        Route::get('/{qid}/question','AnswerController@getAnswerByQuestion');
+//        Route::get('/{qid}/count','AnswerController@getCount');
+//        Route::get('/', 'AnswerController@getAllAnswers');
+        Route::get('/questionid/{qid}','AnswerController@getAnswerByQuestion');
         Route::post('/{qid}', 'AnswerController@store');
         Route::patch('/{qid}','AnswerController@update');
         Route::delete('/{id}','AnswerController@delete');

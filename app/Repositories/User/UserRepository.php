@@ -19,5 +19,7 @@ interface UserRepository
 
     public function edit($id, array $attributes);
 
+    public function update($id, array $attributes);
+
     public function remove($id);
 }
