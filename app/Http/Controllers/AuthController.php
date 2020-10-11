@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
@@ -37,7 +38,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         //dd($token);
-        return $this->respondWithToken($token);
+        //return $this->respondWithToken($token);
+        return view('welcome');
     }
 
     public function logout()

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Traits\QuestionTrait;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
@@ -9,6 +10,8 @@ use App\Answer;
 
 class Question extends Model
 {
+    use QuestionTrait;
+
     private $user;
     protected $fillable=[
       'title','description','user_id','category_id'
@@ -140,46 +143,35 @@ class Question extends Model
 
     public function getList($id)
     {
-        $que = $this->getQuestion($id);
-        $answers = $que->answers()->get();
-//        dd($que);
-//        dd($answers);
-//        $acollect = $que::with(['answers.votes' => function($ans){
-//            $ans->where('type','1')->count();
-//            //$ans->votes()->where('type','0')->count();
-//        }])->get();
-
-//        $acollect = $que::with(['answers'])->get();
-         $que->load('answers');
-
-        foreach($que->answers as $q)
-        {
-            $q['upvotes']=$q->votes()->where('type','1')->count();
-            $q['downvotes']=$q->votes()->where('type','0')->count();
-            $q['answered by']=User::find($q->user_id)->name;
-        }
-//        foreach($acollect as $acol)
+        $que = new Question();
+        return $que->show('abc');
+//        $que = $this->getQuestion($id);
+//        $answers = $que->answers()->get();
+//        $que->load('answers');
+//
+//        foreach($que->answers as $q)
 //        {
-//            $acol->answers->aup= $acol->votes()->where('type','1')->count();
-//            $acol->answers->adown = $acol->votes()->where('type','0')->count();
+//            $q['upvotes']=$q->votes()->type(true)->count();
+//            $q['downvotes']=$q->votes()->type(false)->count();
+//            $q['answered by']=User::find($q->user_id)->name;
 //        }
-
-        $que['category']=Category::find($que->category_id)->name;
-        $que['answers count'] = $answers->count();
-        $que['question upvotes'] = $que->votes()->where('type','1')->count();
-        $que['question down'] = $que->votes()->where('type','0')->count();
-        $que['questioned by']= User::find($que->user_id)->name;
-        /*$data = [
-            'id' => $id,
-            'title' => $que->title,
-            'description' => $que->description,
-            'Asked By' => $name,
-            'Total Answers' => $cnt,
-            'Answer' => $acollect->answers,
-            'Question upvotes' => $qup,
-            'Question downvotes' => $qdown
-        ];*/
-        return $que->makeHidden('user_id');
+//
+//        $que['category']=Category::find($que->category_id)->name;
+//        $que['answers count'] = $answers->count();
+//        $que['question upvotes'] = $que->votes()->type(true)->count();
+//        $que['question down'] = $que->votes()->type(false)->count();
+//        $que['questioned by']= User::find($que->user_id)->name;
+//        /*$data = [
+//            'id' => $id,
+//            'title' => $que->title,
+//            'description' => $que->description,
+//            'Asked By' => $name,
+//            'Total Answers' => $cnt,
+//            'Answer' => $acollect->answers,
+//            'Question upvotes' => $qup,
+//            'Question downvotes' => $qdown
+//        ];*/
+//        return $que->makeHidden('user_id');
     }
     public function user()
     {

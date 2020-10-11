@@ -54,14 +54,9 @@ class Vote extends Model
         return $this->morphTo();
     }
 
-//    public function getUpvote($id,Model $model)
-//    {
-//        return $model->find($id)->votes->where('type',1);
-//    }
-//
-//    public function getDownvote($id,Model $model)
-//    {
-//        return $model->find($id)->votes->where('type',0);
-//    }
+    public function scopeType($query,$value)
+    {
+        return $query->where('type',$value);
+    }
 
 }

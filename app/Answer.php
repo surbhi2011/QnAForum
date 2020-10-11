@@ -71,8 +71,8 @@ class Answer extends Model
         if($this->user->can('update',$ans)) {
             $ans = Answer::findOrFail($id);
             $ans->update($attributes);
-            $ans->upvotes = $ans->votes()->where('type','1')->count();
-            $ans->downvotes = $ans->votes()->where('type','0')->count();
+            $ans->upvotes = $ans->votes()->type(true)->count();
+            $ans->downvotes = $ans->votes()->type(false)->count();
             $ans->answeredBy = User::findOrFail($ans->user_id)->name;
             return $ans;
         }
@@ -86,8 +86,8 @@ class Answer extends Model
         $ans = Question::findOrFail($id)->answers()->get();
 
         foreach($ans as $a) {
-            $a->upvotes = $a->votes()->where('type','1')->count();
-            $a->downvotes = $a->votes()->where('type','0')->count();
+            $a->upvotes = $a->votes()->type(true)->count();
+            $a->downvotes = $a->votes()->type(false)->count();
             $a->answeredBy = User::findOrFail($a->user_id)->name;
         }
         return $ans;
@@ -96,8 +96,8 @@ class Answer extends Model
     {
         $ans = Answer::find($id);
         $a = new Answer();
-        $up = $ans->votes()->where('type','1')->count();
-        $down = $ans->votes()->where('type','0')->count();
+        $up = $ans->votes()->type(true)->count();
+        $down = $ans->votes()->type(false)->count();
         $name = User::find($ans->user_id)->name;
         $data = [
             'Answer Description' => $ans->description,
